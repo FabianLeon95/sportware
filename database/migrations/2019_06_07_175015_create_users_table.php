@@ -14,14 +14,22 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->unsignedTinyInteger('role_id')->nullable();
             $table->string('name');
+            $table->date('birthdate')->nullable();
+            $table->string('nationality')->nullable();
+            $table->unsignedTinyInteger('marital_status_id')->nullable();
+            $table->integer('phone_number')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();
+
+            $table->foreign('role_id')->references('id')->on('roles');
+            $table->foreign('marital_status_id')->references('id')->on('marital_statuses');
         });
     }
 
@@ -35,8 +43,3 @@ class CreateUsersTable extends Migration
         Schema::dropIfExists('users');
     }
 }
-
-git init
-git commit -m "Development Setup"
-git remote add origin https://github.com/FabianLeon95/sportware.git
-git push -u origin master
