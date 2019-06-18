@@ -37,3 +37,4 @@ Route::post('/rookies/user', 'RookieController@storeWithUser')->name('rookies.st
 
 Route::resource('positions','PositionController');
 Route::resource('seasons','SeasonController');
+Route::resource('events/category','EventCategoryController');
