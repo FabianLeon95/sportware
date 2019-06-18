@@ -23,5 +23,9 @@ class RolesTableSeeder extends Seeder
             'role_name'=>'player',
             'display_name'=>'Jugador'
         ]);
+        \App\Models\Role::create([
+            'role_name'=>'medic',
+            'display_name'=>'Medico'
+        ]);
     }
 }

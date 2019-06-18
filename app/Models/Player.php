@@ -33,6 +33,14 @@ use Illuminate\Database\Eloquent\Model;
 class Player extends Model
 {
     /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'user_id', 'position_id', 'shirt_number', 'joined_at'
+    ];
+    /**
      *
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

@@ -17,5 +17,11 @@ class UsersTableSeeder extends Seeder
             'email'=>'fabian30leon@gmail.com',
             'password'=>bcrypt('fLc.3008')
         ]);
+        \App\Models\User::create([
+            'role_id'=> 4,
+            'name' => 'Stephanie Chacon',
+            'email'=>'stepha0608@gmail.com',
+            'password'=>bcrypt('fLc.3008')
+        ]);
     }
 }

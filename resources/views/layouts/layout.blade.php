@@ -56,7 +56,15 @@
 </ul>
 
 @include('partials.layout.sidenav')
-
+<div class="container-fluid" style="padding: 1em 1.5em 0 1.5em">
+    <div class="nav-wrapper right-align">
+        <div class="col s12">
+            <a href="#!" class="breadcrumb">First</a>
+            <a href="#!" class="breadcrumb">Second</a>
+            <a href="#!" class="breadcrumb">Third</a>
+        </div>
+    </div>
+</div>
 <main class="container">
     @yield('content')
 </main>

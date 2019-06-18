@@ -5,12 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateUserRequest;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
-
+    /**
+     * UserController constructor.
+     */
     public function __construct()
     {
         $this->middleware('auth');
@@ -43,8 +44,8 @@ class UserController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateUserRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateUserRequest $request)
     {
@@ -55,7 +56,7 @@ class UserController extends Controller
             'password'=> Str::random(8)
         ]);
 
-        return redirect(route('users.index'));
+        return redirect()->route('users.index');
     }
 
     /**
@@ -85,9 +86,9 @@ class UserController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param CreateUserRequest $request
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function update(CreateUserRequest $request, User $user)
     {
@@ -99,18 +100,19 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect(route('users.index'));
+        return redirect()->route('users.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
+     * @param User $user
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(User $user)
     {
         $user->delete();
-        return redirect(route('users.index'));
+        return redirect()->route('users.index');
     }
 }

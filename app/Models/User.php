@@ -54,6 +54,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereName($value)
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User withoutTrashed()
+ * @property-read \App\Models\MedicalRecord $medicalRecord
  */
 class User extends Authenticatable
 {
@@ -126,5 +127,15 @@ class User extends Authenticatable
     public function notifications()
     {
         return $this->hasMany(Notification::class);
+    }
+
+    /**
+     * Get the user's medical record.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function medical_record()
+    {
+        return $this->hasOne(MedicalRecord::class);
     }
 }
