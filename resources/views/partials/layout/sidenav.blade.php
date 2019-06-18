@@ -1,38 +1,42 @@
 <ul id="nav-mobile" class="sidenav sidenav-fixed">
     <li class="logo">
-        <i class="material-icons" style="font-size: 1.2em">fitness_center</i>
         {{ config('app.name', 'Laravel') }}
     </li>
-    <li><a href="#!">First Sidebar Link</a></li>
-    <li><a href="#!">Second Sidebar Link</a></li>
+    {{--    <li><a href="#!">First Sidebar Link</a></li>--}}
+    {{--    <li><a href="#!">Second Sidebar Link</a></li>--}}
     <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
-            <li class="active">
-                <a class="collapsible-header">Dropdown<i class="material-icons">
-                        chevron_right
-                    </i> </a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="#!">First</a></li>
-                        <li><a href="#!" class="active">Second</a></li>
-                        <li><a href="#!">Third</a></li>
-                        <li><a href="#!">Fourth</a></li>
-                    </ul>
-                </div>
-            </li>
-            <li>
-                <a class="collapsible-header">Options<i class="material-icons">
-                        chevron_right
-                    </i> </a>
-                <div class="collapsible-body">
-                    <ul>
-                        <li><a href="#!">First</a></li>
-                        <li><a href="#!">Second</a></li>
-                        <li><a href="#!">Third</a></li>
-                        <li><a href="#!">Fourth</a></li>
-                    </ul>
-                </div>
-            </li>
+            @if(Auth::user()->hasRoles('admin'))
+                <li>
+                    <a class="collapsible-header">Users<i class="material-icons">
+                            chevron_right
+                        </i> </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="{{route('users.index')}}">Users</a></li>
+                            <li><a href="{{ route('users.create') }}">Add User</a></li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
+            @if(Auth::user()->hasRoles('admin','stats'))
+                <li>
+                    <a class="collapsible-header">Players<i class="material-icons">
+                            chevron_right
+                        </i> </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="{{route('players.index')}}">Players</a></li>
+                            <li><a href="{{ route('players.create') }}">Add Player</a></li>
+                            <li><a href="{{route('rookies.index')}}">Rookies</a></li>
+                            <li><a href="{{ route('rookies.create') }}">Add Rookie</a></li>
+                        </ul>
+                    </div>
+                </li>
+            @endif
+            @if(Auth::user()->hasRoles('admin','medic'))
+                    <li><a href="{{ route('medical.index') }}" style="padding: 0 16px">Medical</a></li>
+            @endif
         </ul>
     </li>
 </ul>

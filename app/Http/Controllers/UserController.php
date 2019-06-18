@@ -53,7 +53,7 @@ class UserController extends Controller
             'role_id'=>$request->role,
             'name'=>$request->name,
             'email'=>$request->email,
-            'password'=> Str::random(8)
+            'password'=> bcrypt('123')
         ]);
 
         return redirect()->route('users.index');

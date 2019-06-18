@@ -2,18 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\MedicalRecord;
-use App\Models\User;
+use App\Models\Season;
 use Illuminate\Http\Request;
 
-class MedicalRecordController extends Controller
+class SeasonController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');
-        $this->middleware('role:admin,medic');
-    }
-
     /**
      * Display a listing of the resource.
      *
@@ -21,7 +14,9 @@ class MedicalRecordController extends Controller
      */
     public function index()
     {
-        //
+        $seasons = Season::all();
+
+        return view('season.index', compact('seasons'));
     }
 
     /**
@@ -29,12 +24,9 @@ class MedicalRecordController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create(User $user)
+    public function create()
     {
-        $columns = array_diff(\Schema::getColumnListing('medical_records'),
-            ["id","user_id","weight","height","other","created_at","updated_at"]);
-
-        return view('medical.record.create', compact('user','columns'));
+        return view('season.create');
     }
 
     /**
@@ -45,16 +37,21 @@ class MedicalRecordController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        Season::create([
+            'year' => $request->year,
+            'description' => $request->description
+        ]);
+
+        return redirect()->route('seasons.index');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\MedicalRecord  $medicalRecord
+     * @param  \App\Season  $season
      * @return \Illuminate\Http\Response
      */
-    public function show(MedicalRecord $medicalRecord)
+    public function show(Season $season)
     {
         //
     }
@@ -62,34 +59,43 @@ class MedicalRecordController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\MedicalRecord  $medicalRecord
+     * @param  \App\Season  $season
      * @return \Illuminate\Http\Response
      */
-    public function edit(MedicalRecord $medicalRecord)
+    public function edit(Season $season)
     {
-        //
+        return view('season.edit', compact('season'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\MedicalRecord  $medicalRecord
+     * @param  \App\Season  $season
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MedicalRecord $medicalRecord)
+    public function update(Request $request, Season $season)
     {
-        //
+        $season->update([
+            'year' => $request->year,
+            'description' => $request->description
+        ]);
+
+        $season->save();
+
+        return redirect()->route('seasons.index');
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\MedicalRecord  $medicalRecord
+     * @param  \App\Season  $season
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MedicalRecord $medicalRecord)
+    public function destroy(Season $season)
     {
-        //
+        $season->delete();
+
+        return redirect()->route('seasons.index');
     }
 }

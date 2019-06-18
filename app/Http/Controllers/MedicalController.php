@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class MedicalController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin,medic');
+    }
+
     public function index()
     {
         $users = User::get(['id','name']);

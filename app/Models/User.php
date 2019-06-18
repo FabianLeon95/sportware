@@ -99,17 +99,6 @@ class User extends Authenticatable
     }
 
     /**
-     * Returns true if the user has the specified role.
-     *
-     * @param $role
-     * @return bool
-     */
-    public function hasRole($role)
-    {
-        return $this->role->role_name === $role;
-    }
-
-    /**
      * Get the marital status that owns the user.
      *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -138,4 +127,27 @@ class User extends Authenticatable
     {
         return $this->hasOne(MedicalRecord::class);
     }
+
+    /**
+     * Returns true if the user has the specified role.
+     *
+     * @param $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return $this->role->role_name === $role;
+    }
+
+    public function hasRoles(...$roles)
+    {
+        foreach ($roles as $role) {
+            if ($this->role->role_name === $role){
+                return true;
+            }
+        }
+        return false;
+
+    }
+
 }

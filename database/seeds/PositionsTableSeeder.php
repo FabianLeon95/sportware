@@ -15,10 +15,10 @@ class PositionsTableSeeder extends Seeder
             'position_name'=>'Quarterback',
         ]);
         \App\Models\Position::create([
-            'position_name'=>'Running Back',
+            'position_name'=>'Position 2',
         ]);
         \App\Models\Position::create([
-            'position_name'=>'Fullback',
+            'position_name'=>'Position 3',
         ]);
     }
 }

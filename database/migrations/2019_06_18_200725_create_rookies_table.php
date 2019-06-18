@@ -14,8 +14,15 @@ class CreateRookiesTable extends Migration
     public function up()
     {
         Schema::create('rookies', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedTinyInteger('position_id');
+            $table->text('observations')->nullable();
             $table->timestamps();
+            $table->softDeletes();
+
+            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('position_id')->references('id')->on('positions');
         });
     }
 

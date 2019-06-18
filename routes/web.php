@@ -31,3 +31,9 @@ Route::get('/medical/reports/create/{user}', 'MedicalReportController@create')->
 Route::post('/medical/reports/store', 'MedicalReportController@store')->name('reports.store');
 
 Route::get('/medical/record/create/{user}', 'MedicalRecordController@create')->name('record.create');
+
+Route::resource('rookies','RookieController');
+Route::post('/rookies/user', 'RookieController@storeWithUser')->name('rookies.store.user');
+
+Route::resource('positions','PositionController');
+Route::resource('seasons','SeasonController');

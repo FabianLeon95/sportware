@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class MedicalReportController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin,medic');
+    }
+
     /**
      * Display a listing of the resource.
      *
