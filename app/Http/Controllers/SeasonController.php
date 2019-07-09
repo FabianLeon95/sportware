@@ -4,10 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SeasonRequest;
 use App\Models\Season;
-use Illuminate\Http\Request;
+use Illuminate\View\Factory;
 
 class SeasonController extends Controller
 {
+    protected $season;
+    protected $view;
+
+    public function __construct(Season $season, Factory $view)
+    {
+        $this->middleware('auth');
+        $this->middleware('role:admin,stats');
+        $this->season = $season;
+        $this->view = $view;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,9 +26,9 @@ class SeasonController extends Controller
      */
     public function index()
     {
-        $seasons = Season::all();
+        $seasons = $this->season->all();
 
-        return view('season.index', compact('seasons'));
+        return $this->view->make('season.index', compact('seasons'));
     }
 
     /**
@@ -27,18 +38,18 @@ class SeasonController extends Controller
      */
     public function create()
     {
-        return view('season.create');
+        return $this->view->make('season.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param SeasonRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(SeasonRequest $request)
     {
-        Season::create([
+       $this->season->create([
             'year' => $request->year,
             'description' => $request->description
         ]);
