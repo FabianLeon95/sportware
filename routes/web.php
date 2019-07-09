@@ -18,7 +18,6 @@ Route::get('/', function () {
 Auth::routes();
 Route::resource('users', 'UserController');
 Route::resource('players', 'PlayerController');
-Route::post('/players/user', 'PlayerController@storeWithUser')->name('players.store.user');
 
 Route::get('/home', 'HomeController@index')->name('home');
 
@@ -29,11 +28,14 @@ Route::get('/medical/search/{param}', 'MedicalController@search')->name('medical
 //Route::resource('medical/reports', 'MedicalReportController');
 Route::get('/medical/reports/create/{user}', 'MedicalReportController@create')->name('reports.create');
 Route::post('/medical/reports/store', 'MedicalReportController@store')->name('reports.store');
+Route::get('/medical/reports/edit/{report}', 'MedicalReportController@edit')->name('reports.edit');
+Route::put('/medical/reports/update/{report}', 'MedicalReportController@update')->name('reports.update');
+Route::get('/medical/reports/show/{report}', 'MedicalReportController@show')->name('reports.show');
 
 Route::get('/medical/record/create/{user}', 'MedicalRecordController@create')->name('record.create');
 
-Route::resource('rookies','RookieController');
-Route::post('/rookies/user', 'RookieController@storeWithUser')->name('rookies.store.user');
+Route::resource('rookies','RookieController')->parameter('rookies', 'rookie');
+//Route::post('/rookies/user', 'RookieController@storeWithUser')->name('rookies.store.user');
 
 Route::resource('positions','PositionController');
 Route::resource('seasons','SeasonController');

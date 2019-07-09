@@ -29,6 +29,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MedicalReport whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MedicalReport whereVisitReason($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\User $medic
+ * @property-read \App\Models\User $patient
  */
 class MedicalReport extends Model
 {

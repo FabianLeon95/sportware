@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\EditUserRequest;
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -90,7 +90,7 @@ class UserController extends Controller
      * @param User $user
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(CreateUserRequest $request, User $user)
+    public function update(EditUserRequest $request, User $user)
     {
         $user->update([
             'name'=>$request->name,

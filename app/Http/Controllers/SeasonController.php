@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SeasonRequest;
 use App\Models\Season;
 use Illuminate\Http\Request;
 
@@ -35,7 +36,7 @@ class SeasonController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(SeasonRequest $request)
     {
         Season::create([
             'year' => $request->year,
@@ -74,7 +75,7 @@ class SeasonController extends Controller
      * @param  \App\Season  $season
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Season $season)
+    public function update(SeasonRequest $request, Season $season)
     {
         $season->update([
             'year' => $request->year,

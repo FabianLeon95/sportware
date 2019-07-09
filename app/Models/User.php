@@ -55,6 +55,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User withTrashed()
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User withoutTrashed()
  * @property-read \App\Models\MedicalRecord $medicalRecord
+ * @property-read \App\Models\MedicalRecord $medical_record
  */
 class User extends Authenticatable
 {

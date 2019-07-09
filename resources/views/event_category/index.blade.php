@@ -5,11 +5,11 @@
         <div class="card-content">
             <div class="row">
                 <div class="col s6 p-0">
-                    <span class="card-title">Positions</span>
+                    <span class="card-title">Categories</span>
                 </div>
                 <div class="col s6 p-0 right-align">
                     <a href="{{ route('category.create') }}" class="btn waves-effect"><i class="material-icons">
-                            person_add
+                            add
                         </i>
                     </a>
                 </div>
@@ -17,7 +17,7 @@
             <table class="table-responsive">
                 <thead>
                 <tr>
-                    <th>Year</th>
+                    <th>Category</th>
                     <th>Description</th>
                     <th></th>
                 </tr>

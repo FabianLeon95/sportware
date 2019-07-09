@@ -2,9 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateUserRequest extends FormRequest
+class SeasonRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +25,8 @@ class CreateUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'=> 'required',
-            'email'=>'required|email|unique:users',
-            'role'=>'required|exists:roles,id'
+            'year' => 'required|integer|between:1999,'.(Carbon::today()->year+1),
+            'description' => 'required|max:255'
         ];
     }
 }

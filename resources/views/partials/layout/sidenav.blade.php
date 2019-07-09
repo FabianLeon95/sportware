@@ -30,12 +30,34 @@
                             <li><a href="{{ route('players.create') }}">Add Player</a></li>
                             <li><a href="{{route('rookies.index')}}">Rookies</a></li>
                             <li><a href="{{ route('rookies.create') }}">Add Rookie</a></li>
+                            <li><a href="{{ route('positions.index') }}">Positions</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header">Games<i class="material-icons">
+                            chevron_right
+                        </i> </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="{{route('seasons.index')}}">Seasons</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li>
+                    <a class="collapsible-header">Events<i class="material-icons">
+                            chevron_right
+                        </i> </a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li><a href="{{route('players.index')}}">Calendar</a></li>
+                            <li><a href="{{ route('category.index') }}">Event Categories</a></li>
                         </ul>
                     </div>
                 </li>
             @endif
             @if(Auth::user()->hasRoles('admin','medic'))
-                    <li><a href="{{ route('medical.index') }}" style="padding: 0 16px">Medical</a></li>
+                <li><a href="{{ route('medical.index') }}" style="padding: 0 16px">Medical</a></li>
             @endif
         </ul>
     </li>

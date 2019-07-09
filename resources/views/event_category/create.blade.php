@@ -6,7 +6,7 @@
         <div class="card-content">
             <div class="row mb-0">
                 <div class="col s6 p-0">
-                    <span class="card-title">New Position</span>
+                    <span class="card-title">New Category</span>
                 </div>
             </div>
             <form method="POST" action="{{ route('category.store') }}">

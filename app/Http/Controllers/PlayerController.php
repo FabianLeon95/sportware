@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreatePlayerRequest;
 use App\Models\Player;
 use App\Models\Position;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class PlayerController extends Controller
 {
@@ -33,21 +33,15 @@ class PlayerController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+ * Show the form for creating a new resource.
+ *
+ * @return \Illuminate\Http\Response
+ */
     public function create()
     {
-        $diffUserIds = Player::get('user_id')->toArray();
-
-        $users = User::where('role_id', 3)
-            ->get()
-            ->diff(User::findMany($diffUserIds));
-
         $positions = Position::get(['id','position_name']);
 
-        return view('player.create', compact('positions', 'users'));
+        return view('player.create', compact('positions'));
     }
 
     /**
@@ -56,28 +50,10 @@ class PlayerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        Player::create([
-            'user_id'=>$request->user,
-            'position_id'=>$request->position,
-            'shirt_number'=>$request->shirt_number,
-            'joined_at'=> Carbon::parse($request->joined_at)->format('Y-m-d')
-        ]);
-
-        return redirect()->route('players.index');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\RedirectResponse
-     */
-    public function storeWithUser(Request $request)
+    public function store(CreatePlayerRequest $request)
     {
         $user = User::create([
-            'role_id' => 3,
+            'role_id' => \Config::get('constants.roles.player'),
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=> bcrypt('123')

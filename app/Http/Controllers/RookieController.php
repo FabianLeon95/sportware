@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateRookieRequest;
+use App\Http\Requests\EditRookieRequest;
 use App\Models\Position;
 use App\Models\Rookie;
 use App\Models\User;
@@ -34,15 +36,15 @@ class RookieController extends Controller
      */
     public function create()
     {
-        $diffUserIds = Rookie::get('user_id')->toArray();
-
-        $users = User::where('role_id', 5)
-            ->get()
-            ->diff(User::findMany($diffUserIds));
+//        $diffUserIds = Rookie::get('user_id')->toArray();
+//
+//        $users = User::where('role_id', 5)
+//            ->get()
+//            ->diff(User::findMany($diffUserIds));
 
         $positions = Position::get(['id','position_name']);
 
-        return view('rookie.create', compact('positions', 'users'));
+        return view('rookie.create', compact('positions'));
     }
 
     /**
@@ -51,21 +53,10 @@ class RookieController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        Rookie::create([
-            'user_id'=>$request->user,
-            'position_id'=>$request->position,
-            'observations'=>$request->observations
-        ]);
-
-        return redirect()->route('rookies.index');
-    }
-
-    public function storeWithUser(Request $request)
+    public function store(CreateRookieRequest $request)
     {
         $user = User::create([
-            'role_id' => 3,
+            'role_id' => \Config::get('constants.roles.player'),
             'name'=>$request->name,
             'email'=>$request->email,
             'password'=> bcrypt('123')
@@ -94,24 +85,32 @@ class RookieController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Rookie $rookie
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function edit($id)
+    public function edit(Rookie $rookie)
     {
-        //
+        $positions = Position::get(['id','position_name']);
+
+        return view('rookie.edit', compact('rookie','positions'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param Rookie $rookie
      */
-    public function update(Request $request, $id)
+    public function update(EditRookieRequest $request, Rookie $rookie)
     {
-        //
+        $rookie->update([
+            'position_id' => $request->position,
+            'observations' => $request->observations
+        ]);
+
+        $rookie->save();
+
+        return redirect()->route('rookies.index');
     }
 
     /**

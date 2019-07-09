@@ -24,15 +24,43 @@
         <div class="card-content grey lighten-4">
             <div id="reports">
                 @if (!$reports->isEmpty())
-                    @foreach($reports as $report)
-                        <div class="card">
-                            <div class="card-content">
-                                <b>Medic</b> : {{ $report->medic->name }}
-                                <b>Diagnostic</b> : {{ $report->diagnostic }}
-                                <b>Date</b> : {{ $report->created_at }}
-                            </div>
+                    <div class="card">
+                        <div class="card-content">
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>Diagnostic</th>
+                                    <th>Medic</th>
+                                    <th>Date</th>
+                                    <th></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($reports as $report)
+                                    <tr>
+                                        <td>{{ $report->diagnostic }}</td>
+                                        <td>{{ $report->medic->name }}</td>
+                                        <td>{{ $report->created_at }}</td>
+                                        <td class="right-align">
+                                            <a class="dropdown-trigger btn-icon btn-flat waves-effect" data-target='player{{$report->id}}'>
+                                                <i class="material-icons">more_vert</i>
+                                            </a>
+                                            <ul id='player{{$report->id}}' class='dropdown-content'>
+                                                <li>
+                                                    <a href="{{ route('reports.show', $report) }}"><i
+                                                                class="material-icons">info</i>Details</a>
+                                                    <a href="{{ route('reports.edit', $report) }}"><i
+                                                                class="material-icons">edit</i>Edit</a>
+                                                </li>
+                                            </ul>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
                         </div>
-                    @endforeach
+                    </div>
+
                 @else
                     <div class="center-align">
                         <h6 class="grey-text">{{ $user->name }} has no reports</h6>
@@ -45,7 +73,8 @@
                     <a href="{{ route('record.create', $user) }}" class="btn btn-block">Edit</a>
                 @else
                     <div class="center-align">
-                        <h6 class="grey-text" style="display: inline-block;margin-right: .5rem">{{ $user->name }} has no medical record</h6>
+                        <h6 class="grey-text" style="display: inline-block;margin-right: .5rem">{{ $user->name }} has no
+                            medical record</h6>
                         <a href="{{ route('record.create', $user) }}" class="btn">Create</a>
                     </div>
                 @endif

@@ -10,44 +10,8 @@
                 </div>
             </div>
         </div>
-        <div class="card-tabs">
-            <ul class="tabs tabs-fixed-width">
-                <li class="tab"><a href="#from-user">From User</a></li>
-                <li class="tab"><a class="active" href="#from-scratch">From Scratch</a></li>
-            </ul>
-        </div>
         <div class="card-content">
-            <form id="from-user" method="POST" action="{{ route('rookies.store') }}">
-                @csrf
-                <div class="input-field col s12">
-                    <select id="user" name="user">
-                        @foreach ($users as $user)
-                            <option value="{{ $user->id }}" {{ ($user->id==1)?'selected':'' }}>{{ $user->name }}</option>
-                        @endforeach
-                    </select>
-                    <label>User</label>
-                </div>
-                <div class="input-field col s12">
-                    <select id="position" name="position">
-                        @foreach ($positions as $position)
-                            <option value="{{ $position->id }}" {{ ($position->id==1)?'selected':'' }}>{{ $position->position_name }}</option>
-                        @endforeach
-                    </select>
-                    <label>Position</label>
-                </div>
-
-                <div class="input-field col s12 p-0">
-                    <textarea id="observations" name="observations" class="materialize-textarea"></textarea>
-                    <label>Observations</label>
-                </div>
-
-                <div class="right-align">
-                    <button class="btn btn-primary btn-block waves-effect mt-5" type="submit">{{ __('Save') }}
-                    </button>
-                </div>
-            </form>
-
-            <form id="from-scratch" method="POST" action="{{ route('rookies.store.user') }}">
+            <form method="POST" action="{{ route('rookies.store') }}">
                 @csrf
                 <div class="row mb-0">
                     <div class="input-field col s12 p-0">
@@ -81,11 +45,13 @@
                 </div>
                 <div class="row mb-0">
                     <div class="input-field col s12 p-0">
-                        <textarea id="observations" name="observations" class="materialize-textarea"></textarea>
-                        <label>Observations</label>
+                        <textarea id="observations" name="observations" class="materialize-textarea @error('observations') invalid @enderror">{{ old('observations') }}</textarea>
+                        <label for="observations">Observations</label>
+                        @error('observations')
+                        <span class="helper-text red-text">{{ $message }}</span>
+                        @enderror
                     </div>
                 </div>
-
                 <div class="right-align">
                     <button class="btn btn-primary btn-block waves-effect mt-5" type="submit">{{ __('Save') }}
                     </button>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateMedicalReportRequest;
+use App\Http\Requests\EditMedicalReportRequest;
 use App\Models\MedicalReport;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -40,7 +42,7 @@ class MedicalReportController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMedicalReportRequest $request)
     {
         MedicalReport::create([
             'medic_id' => \Auth::user()->id,
@@ -60,9 +62,9 @@ class MedicalReportController extends Controller
      * @param  \App\MedicalReport  $medicalReport
      * @return \Illuminate\Http\Response
      */
-    public function show(MedicalReport $medicalReport)
+    public function show(MedicalReport $report)
     {
-        //
+        return view('medical.reports.show', compact('report'));
     }
 
     /**
@@ -71,21 +73,29 @@ class MedicalReportController extends Controller
      * @param  \App\MedicalReport  $medicalReport
      * @return \Illuminate\Http\Response
      */
-    public function edit(MedicalReport $medicalReport)
+    public function edit(MedicalReport $report)
     {
-        //
+        return view('medical.reports.edit', compact('report'));
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\MedicalReport  $medicalReport
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param MedicalReport $report
      */
-    public function update(Request $request, MedicalReport $medicalReport)
+    public function update(EditMedicalReportRequest $request, MedicalReport $report)
     {
-        //
+        $report->update([
+            'visit_reason'=>$request->visit_reason,
+            'diagnostic'=>$request->diagnostic,
+            'treatment'=>$request->treatment,
+            'observations'=>$request->observations
+        ]);
+
+        $report->save();
+
+        return redirect()->route('medical.show', $report->patient);
     }
 
     /**

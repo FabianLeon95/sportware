@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PositionRequest;
 use App\Models\Position;
 use Illuminate\Http\Request;
 
@@ -34,7 +35,7 @@ class PositionController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request)
+    public function store(PositionRequest $request)
     {
         Position::create([
             'position_name'=>$request->position_name
@@ -72,7 +73,7 @@ class PositionController extends Controller
      * @param Position $position
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(Request $request, Position $position)
+    public function update(PositionRequest $request, Position $position)
     {
         $position->update([
             'position_name'=>$request->position_name

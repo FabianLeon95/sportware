@@ -28,7 +28,7 @@
                     <tr>
                         <td>{{ $season->year }}</td>
                         <td>{{ $season->description }}</td>
-                        <th class="right-align">
+                        <td class="right-align">
                             <a class="dropdown-trigger btn-icon btn-flat waves-effect" data-target='season{{$season->id}}'>
                                 <i class="material-icons">more_vert</i>
                             </a>
@@ -41,7 +41,7 @@
                                     <a href="#delete-confirm-{{ $season->id }}" class="modal-trigger"><i class="material-icons">delete</i>Delete</a>
                                 </li>
                             </ul>
-                        </th>
+                        </td>
                     </tr>
 
                     <div id="delete-confirm-{{ $season->id }}" class="modal">

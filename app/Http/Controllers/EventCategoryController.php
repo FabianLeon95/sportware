@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateEventCategoryRequest;
+use App\Http\Requests\EditEventCategoryRequest;
 use App\Models\EventCategory;
 use Illuminate\Http\Request;
 
@@ -35,7 +37,7 @@ class EventCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateEventCategoryRequest $request)
     {
         EventCategory::create([
             'category_name'=>$request->category_name,
@@ -74,7 +76,7 @@ class EventCategoryController extends Controller
      * @param  \App\Models\EventCategory  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, EventCategory $category)
+    public function update(EditEventCategoryRequest $request, EventCategory $category)
     {
         $category->update([
             'category_name'=>$request->category_name,
