@@ -5,11 +5,11 @@
         <div class="card-content">
             <div class="row">
                 <div class="col s6 p-0">
-                    <span class="card-title">Positions</span>
+                    <span class="card-title">Seasons</span>
                 </div>
                 <div class="col s6 p-0 right-align">
                     <a href="{{ route('seasons.create') }}" class="btn waves-effect"><i class="material-icons">
-                            person_add
+                            add
                         </i>
                     </a>
                 </div>
@@ -61,6 +61,9 @@
                 @endforeach
                 </tbody>
             </table>
+            <div class="center-align">
+                {{ $seasons->links('partials.pagination') }}
+            </div>
         </div>
     </div>
 @stop

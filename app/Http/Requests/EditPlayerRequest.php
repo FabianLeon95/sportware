@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\UniqueShirtNumber;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EditPlayerRequest extends FormRequest
@@ -23,9 +24,11 @@ class EditPlayerRequest extends FormRequest
      */
     public function rules()
     {
+        $team_id = $this->get('team');
         return [
             'position'=>'required|exists:positions,id',
-            'shirt_number'=>'required|integer|unique:players,shirt_number,'.$this->route()->player->shirt_number,
+            'team' => 'required|exists:teams,id',
+            'shirt_number' => ['required', 'integer', new UniqueShirtNumber($this->route()->player->id, $team_id)],
             'joined_at'=> 'required|date'
         ];
     }

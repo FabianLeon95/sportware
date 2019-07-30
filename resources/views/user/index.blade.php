@@ -38,7 +38,8 @@
                                                 class="material-icons">edit</i>Edit</a>
                                 </li>
                                 <li>
-                                    <a href="#delete-confirm-{{ $user->id }}" class="modal-trigger"><i class="material-icons">delete</i>Delete</a>
+                                    <a href="#delete-confirm-{{ $user->id }}" class="modal-trigger"><i
+                                                class="material-icons">delete</i>Delete</a>
                                 </li>
                             </ul>
                         </th>
@@ -59,9 +60,11 @@
                         </form>
                     </div>
                 @endforeach
-
                 </tbody>
             </table>
+            <div class="center-align">
+                {{ $users->links('partials.pagination') }}
+            </div>
         </div>
     </div>
 @stop

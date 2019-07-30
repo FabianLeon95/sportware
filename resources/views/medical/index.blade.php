@@ -5,7 +5,7 @@
         <div class="card-content">
             <div class="row">
                 <div class="col s6 p-0">
-                    <span class="card-title">Users</span>
+                    <span class="card-title">Search User</span>
                 </div>
                 <div class="col s6 p-0 right-align">
                     <a href="{{ route('users.create') }}" class="btn waves-effect"><i class="material-icons">

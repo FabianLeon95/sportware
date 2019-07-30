@@ -6,7 +6,6 @@
 @import 'materialize';
 
 // Custom
-$primary-color: color("light-blue", "darken-1") !default;
 $sidenav-font-color: #fff;
 $sidenav-bg-color: color("blue-grey", "darken-4");
 
@@ -21,6 +20,10 @@ $sidenav-bg-color: color("blue-grey", "darken-4");
 .py-2{
   padding-top: 1rem !important;
   padding-bottom: 1rem !important;
+}
+
+.mt-0 {
+  margin-top: 0 !important;
 }
 
 .mt-2 {
@@ -131,6 +134,10 @@ $sidenav-bg-color: color("blue-grey", "darken-4");
     height: auto;
     margin-top: 2rem;
   }
+}
+
+.fa-football-ball:before {
+  font-size: 0.8em;
 }
 
 @media only screen and (min-width : 992px) {

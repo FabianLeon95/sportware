@@ -31,6 +31,7 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property-read \App\Models\User $medic
  * @property-read \App\Models\User $patient
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\ReportAttachment[] $attachments
  */
 class MedicalReport extends Model
 {
@@ -51,5 +52,10 @@ class MedicalReport extends Model
     public function patient()
     {
         return $this->hasOne(User::class, 'id', 'patient_id');
+    }
+
+    public function attachments()
+    {
+        return $this->hasMany(ReportAttachment::class, 'medical_report_id', 'id');
     }
 }

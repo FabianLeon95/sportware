@@ -23,11 +23,13 @@ class CreatePlayerRequest extends FormRequest
      */
     public function rules()
     {
+        $team_id = $this->get('team');
         return [
             'name'=> 'required',
             'email'=>'required|email|unique:users',
             'position'=>'required|exists:positions,id',
-            'shirt_number'=>'required|integer|unique:players',
+            'team' => 'required|exists:teams,id',
+            'shirt_number'=>'required|integer|unique:players,shirt_number,NULL,id,team_id,'.$team_id,
             'joined_at'=> 'required|date'
         ];
     }

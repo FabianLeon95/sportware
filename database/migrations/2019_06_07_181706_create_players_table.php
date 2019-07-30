@@ -15,15 +15,18 @@ class CreatePlayersTable extends Migration
     {
         Schema::create('players', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
-            $table->unsignedTinyInteger('position_id');
+            $table->unsignedInteger('user_id')->nullable();
+            $table->unsignedTinyInteger('position_id')->nullable();
+            $table->unsignedInteger('team_id');
             $table->tinyInteger('shirt_number');
-            $table->timestamp('joined_at');
+            $table->timestamp('joined_at')->nullable();
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign('user_id')->references('id')->on('users');
             $table->foreign('position_id')->references('id')->on('positions');
+            $table->foreign('team_id')->references('id')->on('teams');
+            $table->unique( array('team_id','shirt_number') );
         });
     }
 

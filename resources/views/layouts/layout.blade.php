@@ -13,13 +13,14 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('styles')
 </head>
 
 <body class="dashboard">
 
 <nav class="nav-extended">
     <div class="nav-wrapper">
-        <a href="#" class="brand-logo hide-on-large-only">{{ config('app.name', 'Laravel') }}</a>
+        <a href="#" class="brand-logo hide-on-large-only"><img class="materialboxed" src="/images/logo-1.png" height="56px" alt=""></a>
         <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="top-menu" class="right">
             <li><a class="dropdown-trigger user" data-target="user-dropdown">
@@ -31,6 +32,7 @@
         </ul>
     </div>
 </nav>
+@yield('progress')
 
 <ul id="user-dropdown" class="dropdown-content">
     <li>
@@ -62,6 +64,7 @@
 
 <!-- Scripts -->
 <script src="{{ asset('js/app.js') }}" defer></script>
+@yield('scripts')
 </body>
 
 </html>

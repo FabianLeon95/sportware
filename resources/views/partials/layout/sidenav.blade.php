@@ -1,6 +1,6 @@
 <ul id="nav-mobile" class="sidenav sidenav-fixed">
-    <li class="logo">
-        {{ config('app.name', 'Laravel') }}
+    <li class="logo center-align">
+        <img src="/images/logo-2.png" height="56px" style="margin: 0.5em auto" alt="">
     </li>
     {{--    <li><a href="#!">First Sidebar Link</a></li>--}}
     {{--    <li><a href="#!">Second Sidebar Link</a></li>--}}

@@ -29,6 +29,9 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Player whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Player whereUserId($value)
  * @mixin \Eloquent
+ * @property int $team_id
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Player whereTeamId($value)
+ * @property-read \App\Models\Team $team
  */
 class Player extends Model
 {
@@ -38,7 +41,7 @@ class Player extends Model
      * @var array
      */
     protected $fillable = [
-        'user_id', 'position_id', 'shirt_number', 'joined_at'
+        'user_id', 'position_id', 'team_id' , 'shirt_number', 'joined_at'
     ];
     /**
      *
@@ -58,5 +61,10 @@ class Player extends Model
     public function position()
     {
         return $this->belongsTo(Position::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
     }
 }

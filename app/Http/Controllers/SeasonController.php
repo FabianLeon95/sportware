@@ -15,7 +15,7 @@ class SeasonController extends Controller
      */
     public function index()
     {
-        $seasons = Season::all();
+        $seasons = Season::paginate(10);
 
         return view('season.index', compact('seasons'));
     }

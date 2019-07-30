@@ -16,7 +16,7 @@ class EventCategoryController extends Controller
      */
     public function index()
     {
-        $categories = EventCategory::all();
+        $categories = EventCategory::paginate(10);
 
         return view('event_category.index', compact('categories'));
     }

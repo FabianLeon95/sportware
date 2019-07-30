@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CreatePlayerRequest;
+use App\Http\Requests\EditPlayerRequest;
 use App\Models\Player;
 use App\Models\Position;
+use App\Models\Team;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -27,8 +29,7 @@ class PlayerController extends Controller
      */
     public function index()
     {
-        $players = Player::with('user', 'position')->get();
-
+        $players = Player::where('team_id', 1)->with('user', 'position')->paginate(10);
         return view('player.index', compact('players'));
     }
 
@@ -40,8 +41,9 @@ class PlayerController extends Controller
     public function create()
     {
         $positions = Position::get(['id','position_name']);
+        $teams = Team::get(['id', 'name']);
 
-        return view('player.create', compact('positions'));
+        return view('player.create', compact('positions', 'teams'));
     }
 
     /**
@@ -62,6 +64,7 @@ class PlayerController extends Controller
         Player::create([
             'user_id'=>$user->id,
             'position_id'=>$request->position,
+            'team_id' => $request->team,
             'shirt_number'=>$request->shirt_number,
             'joined_at'=> Carbon::parse($request->joined_at)->format('Y-m-d')
         ]);
@@ -90,7 +93,9 @@ class PlayerController extends Controller
     {
         $positions = Position::get(['id','position_name']);
 
-        return view('player.edit', compact('player', 'positions'));
+        $teams = Team::get(['id', 'name']);
+
+        return view('player.edit', compact('player', 'positions', 'teams'));
     }
 
     /**
@@ -100,17 +105,18 @@ class PlayerController extends Controller
      * @param  \App\Models\Player  $player
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Player $player)
+    public function update(EditPlayerRequest $request, Player $player)
     {
         $player->update([
             'position_id'=>$request->position,
+            'team_id' => $request->team,
             'shirt_number'=>$request->shirt_number,
             'joined_at'=>Carbon::parse($request->joined_at)->format('Y-m-d')
         ]);
 
         $player->save();
 
-        return redirect()->route('users.index');
+        return redirect()->route('players.index');
     }
 
     /**
@@ -122,5 +128,11 @@ class PlayerController extends Controller
     public function destroy(Player $player)
     {
         //
+    }
+
+    public function getPlayers($team){
+        $players = Player::where('team_id', $team)->with('user')->get();
+
+        return json_encode($players);
     }
 }

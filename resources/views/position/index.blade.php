@@ -61,6 +61,9 @@
                 @endforeach
                 </tbody>
             </table>
+            <div class="center-align">
+                {{ $positions->links('partials.pagination') }}
+            </div>
         </div>
     </div>
 @stop

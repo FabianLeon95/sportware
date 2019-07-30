@@ -8,7 +8,7 @@
                     <span class="card-title">{{ $user->name }}</span>
                 </div>
             </div>
-            <form method="POST" action="{{ route('reports.store') }}">
+            <form method="POST" action="{{ route('reports.store') }}" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="patient_id" value="{{$user->id}}">
                 <div class="row mb-0">
@@ -56,11 +56,14 @@
                 <div class="file-field input-field">
                     <div class="btn waves-effect">
                         <span>File</span>
-                        <input type="file" multiple>
+                        <input name="files[]" type="file" class="@error('files.*') invalid @enderror" multiple>
                     </div>
                     <div class="file-path-wrapper">
                         <input class="file-path" type="text" placeholder="Upload one or more files">
                     </div>
+                    @error('files.*')
+                    <span class="helper-text red-text">{{ $message }}</span>
+                    @enderror
                 </div>
                 <div class="right-align">
                     <button class="btn btn-primary btn-block waves-effect mt-5" type="submit">{{ __('Save') }}

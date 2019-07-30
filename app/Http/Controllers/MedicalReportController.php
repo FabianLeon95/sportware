@@ -5,8 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateMedicalReportRequest;
 use App\Http\Requests\EditMedicalReportRequest;
 use App\Models\MedicalReport;
+use App\Models\ReportAttachment;
 use App\Models\User;
+use Illuminate\Contracts\Filesystem\FileExistsException;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 
 class MedicalReportController extends Controller
 {
@@ -39,12 +43,12 @@ class MedicalReportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param CreateMedicalReportRequest $request
+     * @return \Illuminate\Http\RedirectResponse
      */
     public function store(CreateMedicalReportRequest $request)
     {
-        MedicalReport::create([
+        $report = MedicalReport::create([
             'medic_id' => \Auth::user()->id,
             'patient_id' => $request->patient_id,
             'visit_reason'=>$request->visit_reason,
@@ -52,6 +56,25 @@ class MedicalReportController extends Controller
             'treatment'=>$request->treatment,
             'observations'=>$request->observations
         ]);
+
+        $files = $request->file('files');
+
+        if ($files){
+            try{
+                foreach ($files as $file){
+                    $fileName = uniqid().'.'.$file->extension();
+                    \Storage::disk('public')->put($fileName, \File::get($file));
+
+                    ReportAttachment::create([
+                        'file_name' => $fileName,
+                        'medical_report_id' => $report->id
+                    ]);
+                }
+            } catch (FileNotFoundException $e) {
+                return redirect()->back()->withInput($request->input());
+            }
+
+        }
 
         return redirect()->route('medical.show', $request->patient_id);
     }

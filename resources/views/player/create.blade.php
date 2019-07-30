@@ -43,6 +43,14 @@
                     </select>
                     <label>Position</label>
                 </div>
+                <div class="input-field col s12">
+                    <select id="team" name="team">
+                        @foreach ($teams as $team)
+                            <option value="{{ $team->id }}" {{ ($team->id==1)?'selected':'' }}>{{ $team->name }}</option>
+                        @endforeach
+                    </select>
+                    <label>Team</label>
+                </div>
                 <div class="row mb-0">
                     <div class="input-field col s12 p-0">
                         <input id="shirt_number" name="shirt_number" type="number"

@@ -24,7 +24,7 @@ class RookieController extends Controller
      */
     public function index()
     {
-        $rookies = Rookie::with('user', 'position')->get();
+        $rookies = Rookie::with('user', 'position')->paginate(10);
 
         return view('rookie.index', compact('rookies'));
     }

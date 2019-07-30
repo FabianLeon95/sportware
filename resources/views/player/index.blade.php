@@ -18,7 +18,8 @@
                 <thead>
                 <tr>
                     <th>Name</th>
-                    <th>Position</th>
+                    <th>Team</th>
+                    <th>Number</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -27,7 +28,8 @@
                 @foreach ($players as $player)
                     <tr>
                         <td>{{ $player->user->name }}</td>
-                        <td>{{ $player->position->position_name }}</td>
+                        <td>{{ $player->team->name }}</td>
+                        <td>{{ $player->shirt_number }}</td>
                         <th class="right-align">
                             <a class="dropdown-trigger btn-icon btn-flat waves-effect" data-target='player{{$player->id}}'>
                                 <i class="material-icons">more_vert</i>
@@ -59,9 +61,11 @@
                         </form>
                     </div>
                 @endforeach
-
                 </tbody>
             </table>
+            <div class="center-align">
+                {{ $players->links('partials.pagination') }}
+            </div>
         </div>
     </div>
 @stop

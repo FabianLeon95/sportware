@@ -23,6 +23,9 @@
             <p>{{ $report->treatment }}</p>
             <h5>Observations</h5>
             <p>{{ $report->observations }}</p>
+            @foreach($report->attachments as $attachment)
+                {{ $attachment->file_name }}
+            @endforeach
         </div>
     </div>
 @stop

@@ -59,9 +59,11 @@
                         </form>
                     </div>
                 @endforeach
-
                 </tbody>
             </table>
+            <div class="center-align">
+                {{ $rookies->links('partials.pagination') }}
+            </div>
         </div>
     </div>
 @stop
