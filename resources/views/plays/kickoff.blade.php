@@ -42,7 +42,7 @@
                     <label for="kicker">Kicker</label>
                 </div>
 
-                <div class="row">
+                <div class="row mt-5">
                     <div class="col s1">
                         {{ $play->left_team->name }}
                     </div>

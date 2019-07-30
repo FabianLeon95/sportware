@@ -313,8 +313,6 @@ class PlaysService
         Session::put('home_points', 0);
         Session::put('visit_points', 0);
 
-        dd(Session::get('left_team_id'), Session::get('right_team_id'));
-
         if (!(Session::get('left_team_id') || Session::get('right_team_id'))) {
             Session::put('left_team_id', $play->left_team_id);
             Session::put('right_team_id', $play->right_team_id);
@@ -351,7 +349,6 @@ class PlaysService
 
     public function getPlayStatus()
     {
-        dd(Session::get('right_team_id'));
         $play = (object)array(
             'id' => Session::get('play_id'),
             'match_id' => Session::get('match_id'),

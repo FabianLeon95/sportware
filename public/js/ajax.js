@@ -17,9 +17,7 @@ function load(teamId) {
             $('select[name="kicker"]').empty();
 
             $.each(data, function (key, value) {
-
-                $('select[name="kicker"]').append('<option value="' + value.id + '">' + value.user.name + '</option>');
-
+                $('select[name="kicker"]').append('<option value="' + value.id + '">#' + value.shirt_number + ' ' + ((value.user != null) ? value.user.name : '') + '</option>');
             });
             $(document).ready(function () {
                 $('#kicker').formSelect();

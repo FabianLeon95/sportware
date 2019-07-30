@@ -39,7 +39,7 @@
                         <div class="input-field col s12 mt-5">
                             <select id="kicker" name="kicker">
                                 @foreach ($players as $player)
-                                    <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ $player->user->name }}</option>
+                                    <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ ($player->user) ? $player->user->name: '' }}</option>
                                 @endforeach
                             </select>
                             <label for="kicker">Kicker</label>
@@ -51,7 +51,7 @@
                         <div class="input-field col s12 mt-5">
                             <select id="runner" name="runner">
                                 @foreach ($players as $player)
-                                    <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ $player->user->name }}</option>
+                                    <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ ($player->user) ? $player->user->name: '' }}</option>
                                 @endforeach
                             </select>
                             <label for="runner">Runner</label>
@@ -64,7 +64,7 @@
                         <div class="input-field col s12 mt-5">
                             <select id="passer" name="passer">
                                 @foreach ($players as $player)
-                                    <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ $player->user->name }}</option>
+                                    <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ ($player->user) ? $player->user->name: '' }}</option>
                                 @endforeach
                             </select>
                             <label for="passer">Passer</label>
@@ -72,7 +72,7 @@
                         <div class="input-field col s12 mt-5">
                             <select id="receiver" name="receiver">
                                 @foreach ($players as $player)
-                                    <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ $player->user->name }}</option>
+                                    <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ ($player->user) ? $player->user->name: '' }}</option>
                                 @endforeach
                             </select>
                             <label for="receiver">Receiver</label>

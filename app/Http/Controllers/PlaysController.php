@@ -52,7 +52,6 @@ class PlaysController extends Controller
     public function kickOff(Match $match)
     {
         $play = $this->ps->getPlayStatus();
-        dd($play);
         return view('plays.kickoff', compact('match', 'play'));
     }
 

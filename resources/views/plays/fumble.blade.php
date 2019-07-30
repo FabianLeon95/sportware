@@ -18,7 +18,7 @@
                     <select id="caused_by" name="caused_by">
                         <option value="-1">Select player...</option>
                         @foreach ($players as $player)
-                            <option value="{{ $player->id }}">{{ $player->shirt_number }} - {{ $player->user->name }}</option>
+                            <option value="{{ $player->id }}">{{ $player->shirt_number }} {{ ($player->user) ? $player->user->name: '' }}</option>
                         @endforeach
                     </select>
                     <label for="caused_by">Caused by</label>
