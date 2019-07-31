@@ -81,3 +81,5 @@ Route::get('/matches/{season}', 'MatchController@matches')->name('match.matches'
 Route::get('/matches/{season}/create', 'MatchController@create')->name('match.create');
 Route::post('/matches/{season}/create', 'MatchController@store')->name('match.store');
 
+Route::get('/testing/{match}', 'PlaysController@playsTesting');
+

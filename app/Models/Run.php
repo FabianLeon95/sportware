@@ -30,4 +30,14 @@ class Run extends Model
 {
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function runner()
+    {
+        return $this->hasOne(Player::class, 'id', 'runner_id');
+    }
 }

@@ -36,4 +36,14 @@ class Kick extends Model
 {
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function kicker()
+    {
+        return $this->hasOne(Player::class, 'id', 'kicker_id');
+    }
 }

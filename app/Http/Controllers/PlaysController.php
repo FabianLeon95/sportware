@@ -13,6 +13,7 @@ use App\Models\Player;
 use App\Models\Punt;
 use App\Models\Run;
 use App\Models\Team;
+use App\Services\PlayDescriptionService;
 use App\Services\PlaysService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
@@ -47,6 +48,12 @@ class PlaysController extends Controller
     {
         $this->ps->swapTeams();
         return redirect()->back();
+    }
+
+    public function playsTesting(Match $match)
+    {
+        $pds = new PlayDescriptionService();
+        $pds->plays($match);
     }
 
     public function kickOff(Match $match)
@@ -263,7 +270,7 @@ class PlaysController extends Controller
             'team_id' => $request->team,
             'passer_id' => $request->passer,
             'receiver_id' => $request->receiver,
-            'yards' => ($request->team == $match->left_team_id) ? $request->yards : ($request->yards * -1),
+            'yards' => ($request->team == $play->left_team->id) ? $request->yards : ($request->yards * -1),
             'status_id' => $request->status,
             'touchdown' => $touchdown
         ]);
@@ -335,7 +342,7 @@ class PlaysController extends Controller
             'play_id' => $play->id,
             'team_id' => $request->team,
             'interceptor_id' => $request->interceptor,
-            'yards' => ($request->team == $match->left_team_id) ? $request->yards : ($request->yards * -1),
+            'yards' => ($request->team == $play->left_team->id) ? $request->yards : ($request->yards * -1),
             'touchdown' => $touchdown
         ]);
 
@@ -376,7 +383,7 @@ class PlaysController extends Controller
             'play_id' => $play->id,
             'team_id' => $request->team,
             'runner_id' => $request->runner,
-            'yards' => ($request->team == $match->left_team_id) ? $request->yards : ($request->yards * -1),
+            'yards' => ($request->team == $play->left_team->id) ? $request->yards : ($request->yards * -1),
             'touchdown' => $touchdown
         ]);
 
@@ -472,6 +479,7 @@ class PlaysController extends Controller
     public function punt(Request $request, Match $match)
     {
         $this->ps->playStartup($match);
+        $play = $this->ps->getPlayStatus();
         $newBallOn = $request->ball_on + $request->yards;
 
         if ($request->team == Session::get('left_team_id')) {
@@ -500,7 +508,7 @@ class PlaysController extends Controller
             'play_id' => Session::get('play_id'),
             'team_id' => $request->team,
             'kicker_id' => $request->kicker,
-            'yards' => ($request->team == $match->left_team_id) ? $request->yards : ($request->yards * -1),
+            'yards' => ($request->team == $play->left_team->id) ? $request->yards : ($request->yards * -1),
         ]);
 
         Session::put('switch_team', $request->team);

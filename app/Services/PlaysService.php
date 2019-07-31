@@ -82,6 +82,7 @@ class PlaysService
     {
         if ($request->kickoff) {
             $this->playStartup($match);
+            $play = $this->getPlayStatus();
             $newBallOn = $request->ball_on + $request->yards;
 
             if ($request->team == Session::get('left_team_id')) {
@@ -110,7 +111,7 @@ class PlaysService
                 'play_id' => Session::get('play_id'),
                 'team_id' => $request->team,
                 'kicker_id' => $request->kicker,
-                'yards' => ($request->team == $match->left_team_id) ? $request->yards : ($request->yards * -1),
+                'yards' => ($request->team == $play->left_team->id) ? $request->yards : ($request->yards * -1),
                 'type' => 'kickoff'
             ]);
 
@@ -159,7 +160,8 @@ class PlaysService
             'match_id' => $match->id,
             'play_id' => $play->id,
             'team_id' => $request->team,
-            'yards' => ($request->team == $match->left_team_id) ? $request->yards : ($request->yards * -1),
+            'runner_id' => $request->runner,
+            'yards' => ($request->team == $play->left_team->id) ? $request->yards : ($request->yards * -1),
             'touchdown' => $touchdown
         ]);
 
@@ -236,7 +238,7 @@ class PlaysService
             'play_id' => $play->id,
             'team_id' => $request->team,
             'recover_id' => $request->recover,
-            'yards' => ($request->team == $match->left_team_id) ? $request->yards : ($request->yards * -1),
+            'yards' => ($request->team == $play->left_team->id) ? $request->yards : ($request->yards * -1),
             'touchdown' => $touchdown
         ]);
 
@@ -297,6 +299,7 @@ class PlaysService
             }
         }
     }
+
 
     public function playStartup(Match $match)
     {

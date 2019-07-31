@@ -18,11 +18,13 @@ class CreateReturnPlaysTable extends Migration
             $table->unsignedBigInteger('match_id');
             $table->uuid('play_id');
             $table->unsignedInteger('team_id');
+            $table->unsignedInteger('runner_id');
             $table->tinyInteger('yards');
             $table->tinyInteger('touchdown');
 
             $table->foreign('match_id')->references('id')->on('matches');
             $table->foreign('team_id')->references('id')->on('teams');
+            $table->foreign('runner_id')->references('id')->on('players');
         });
     }
 

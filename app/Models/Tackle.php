@@ -30,4 +30,19 @@ class Tackle extends Model
 {
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function tackler()
+    {
+        return $this->hasOne(Player::class, 'id', 'tackler_id');
+    }
+
+    public function assist()
+    {
+        return $this->hasOne(Player::class, 'id', 'assist_id');
+    }
 }

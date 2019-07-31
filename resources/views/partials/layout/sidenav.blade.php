@@ -41,6 +41,7 @@
                     <div class="collapsible-body">
                         <ul>
                             <li><a href="{{route('seasons.index')}}">Seasons</a></li>
+                            <li><a href="{{route('match.index')}}">Matches</a></li>
                         </ul>
                     </div>
                 </li>

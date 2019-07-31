@@ -24,10 +24,19 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $yards
  * @property int $touchdown
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReturnPlay whereYards($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReturnPlay whereTouchdown($value)
  */
 class ReturnPlay extends Model
 {
     protected $guarded = ['id'];
     public $timestamps = false;
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
+
+    public function runner()
+    {
+        return $this->hasOne(Player::class, 'id', 'runner_id');
+    }
 }
