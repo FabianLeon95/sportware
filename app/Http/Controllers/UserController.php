@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\UserWasCreated;
 use App\Http\Requests\CreateUserRequest;
 use App\Http\Requests\EditUserRequest;
 use App\Models\Role;
 use App\Models\User;
+use Faker\Provider\Uuid;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -48,12 +52,15 @@ class UserController extends Controller
      */
     public function store(CreateUserRequest $request)
     {
-        User::create([
+        $user = User::create([
             'role_id'=>$request->role,
             'name'=>$request->name,
             'email'=>$request->email,
-            'password'=> bcrypt('123')
+            'password'=> Hash::make(Str::random(8)),
+            'registration_token' => Uuid::uuid()
         ]);
+
+        event(new UserWasCreated($user));
 
         return redirect()->route('users.index');
     }

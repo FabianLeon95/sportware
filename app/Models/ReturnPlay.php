@@ -24,6 +24,11 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $yards
  * @property int $touchdown
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReturnPlay whereYards($value)
+ * @property int $runner_id
+ * @property-read \App\Models\Player $runner
+ * @property-read \App\Models\Team $team
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReturnPlay whereRunnerId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\ReturnPlay whereTouchdown($value)
  */
 class ReturnPlay extends Model
 {

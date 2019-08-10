@@ -7,10 +7,13 @@ use App\Http\Requests\EditMedicalReportRequest;
 use App\Models\MedicalReport;
 use App\Models\ReportAttachment;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Filesystem\FileExistsException;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Str;
 
 class MedicalReportController extends Controller
 {
@@ -62,7 +65,9 @@ class MedicalReportController extends Controller
         if ($files){
             try{
                 foreach ($files as $file){
-                    $fileName = uniqid().'.'.$file->extension();
+                    $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
+                                        .'_'.uniqid()
+                                        .'.'.$file->extension();
                     \Storage::disk('public')->put($fileName, \File::get($file));
 
                     ReportAttachment::create([
@@ -87,7 +92,16 @@ class MedicalReportController extends Controller
      */
     public function show(MedicalReport $report)
     {
-        return view('medical.reports.show', compact('report'));
+        $attachments = collect();
+        foreach ($report->attachments as $attachment){
+            $file = [
+                'name' => $attachment->file_name,
+                'extension' => File::extension('storage/'.$attachment->file_name),
+                'path' => 'storage/'.$attachment->file_name
+            ];
+            $attachments->push($file);
+        }
+        return view('medical.reports.show', compact('report', 'attachments'));
     }
 
     /**
@@ -115,6 +129,27 @@ class MedicalReportController extends Controller
             'treatment'=>$request->treatment,
             'observations'=>$request->observations
         ]);
+
+        $files = $request->file('files');
+
+        if ($files){
+            try{
+                foreach ($files as $file){
+                    $fileName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME)
+                        .'_'.uniqid()
+                        .'.'.$file->extension();
+                    \Storage::disk('public')->put($fileName, \File::get($file));
+
+                    ReportAttachment::create([
+                        'file_name' => $fileName,
+                        'medical_report_id' => $report->id
+                    ]);
+                }
+            } catch (FileNotFoundException $e) {
+                return redirect()->back()->withInput($request->input());
+            }
+
+        }
 
         $report->save();
 

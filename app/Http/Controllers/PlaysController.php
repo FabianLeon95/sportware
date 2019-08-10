@@ -17,6 +17,7 @@ use App\Services\PlayDescriptionService;
 use App\Services\PlaysService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -52,8 +53,9 @@ class PlaysController extends Controller
 
     public function playsTesting(Match $match)
     {
-        $pds = new PlayDescriptionService();
-        $pds->plays($match);
+//        $pds = new PlayDescriptionService();
+//        $pds->plays($match);
+        Mail::send('view', ['data'], function($message){});
     }
 
     public function kickOff(Match $match)

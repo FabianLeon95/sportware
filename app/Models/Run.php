@@ -25,6 +25,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereTouchdown($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Run whereYards($value)
  * @mixin \Eloquent
+ * @property-read \App\Models\Player $runner
+ * @property-read \App\Models\Team $team
  */
 class Run extends Model
 {

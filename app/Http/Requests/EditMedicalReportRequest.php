@@ -23,10 +23,12 @@ class EditMedicalReportRequest extends FormRequest
      */
     public function rules()
     {
+        //dd($this->files);
         return [
             'visit_reason' => 'required|max:255',
             'diagnostic' => 'required',
-            'treatment' => 'required'
+            'treatment' => 'required',
+            'files.*' => 'mimes:jpg,jpeg,png,pdf,doc,docx|max:20000'
         ];
     }
 }

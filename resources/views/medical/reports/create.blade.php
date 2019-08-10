@@ -13,14 +13,12 @@
                 <input type="hidden" name="patient_id" value="{{$user->id}}">
                 <div class="row mb-0">
                     <div class="input-field col s12 p-0">
-                        <input id="visit_reason" name="visit_reason" type="text"
-                               class="@error('visit_reason') invalid @enderror"
+                        <input id="visit_reason" name="visit_reason" type="text" class="@error('visit_reason') invalid @enderror"
                                value="{{ old('visit_reason') }}">
                         <label for="visit_reason">{{ __('Reason of the Visit') }}</label>
                         @error('visit_reason')
                         <span class="helper-text red-text">{{ $message }}</span>
                         @enderror
-
                     </div>
                 </div>
                 <div class="row mb-0">

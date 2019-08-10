@@ -3,7 +3,7 @@
 @section('content')
     <div class="card">
         <div class="card-content">
-            <div class="row">
+            <div class="row mb-0">
                 <div class="col s6 p-0">
                     <span class="card-title">{{ $user->name }}</span>
                 </div>
@@ -21,7 +21,7 @@
                 <li class="tab"><a href="#record">Medical Record</a></li>
             </ul>
         </div>
-        <div class="card-content grey lighten-4">
+        <div class="card-content grey lighten-2">
             <div id="reports">
                 @if (!$reports->isEmpty())
                     <div class="card">
@@ -38,9 +38,9 @@
                                 <tbody>
                                 @foreach($reports as $report)
                                     <tr>
-                                        <td>{{ $report->diagnostic }}</td>
+                                        <td>{{ Illuminate\Support\Str::limit($report->diagnostic, 40) }}</td>
                                         <td>{{ $report->medic->name }}</td>
-                                        <td>{{ $report->created_at }}</td>
+                                        <td>{{ \Carbon\Carbon::parse($report->created_at)->toFormattedDateString() }}</td>
                                         <td class="right-align">
                                             <a class="dropdown-trigger btn-icon btn-flat waves-effect" data-target='player{{$report->id}}'>
                                                 <i class="material-icons">more_vert</i>
@@ -58,6 +58,9 @@
                                 @endforeach
                                 </tbody>
                             </table>
+                            <div class="center-align">
+                                {{ $reports->links('partials.pagination') }}
+                            </div>
                         </div>
                     </div>
 
@@ -67,10 +70,16 @@
                     </div>
                 @endif
             </div>
-            <div id="record">
-                @if ($user->medical_record)
-                    @include('partials.medical_record')
-                    <a href="{{ route('record.create', $user) }}" class="btn btn-block">Edit</a>
+            <div id="record" class="card p-2">
+                @if ($user->medicalRecord)
+                    <div class="right-align">
+                        <a href="{{ route('record.edit', $user) }}" class="btn waves-effect">
+                            <i class="material-icons">
+                                edit
+                            </i>
+                        </a>
+                    </div>
+                    @include('partials.medical_record', ['record'=>$user->medicalRecord])
                 @else
                     <div class="center-align">
                         <h6 class="grey-text" style="display: inline-block;margin-right: .5rem">{{ $user->name }} has no

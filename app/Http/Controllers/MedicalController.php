@@ -23,7 +23,7 @@ class MedicalController extends Controller
 
     public function show(User $user)
     {
-        $reports = MedicalReport::where('patient_id', $user->id)->get();
+        $reports = MedicalReport::where('patient_id', $user->id)->paginate(5);
         return view('medical.show', compact('user', 'reports'));
     }
 

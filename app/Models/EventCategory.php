@@ -21,10 +21,16 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventCategory whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventCategory whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string $color
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\EventCategory whereColor($value)
  */
 class EventCategory extends Model
 {
-    protected $fillable = [
-        'category_name', 'description'
-    ];
+    protected $guarded = ['id'];
+
+    public function events()
+    {
+        return $this->hasMany(Event::class);
+    }
 }

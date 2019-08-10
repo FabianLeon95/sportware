@@ -2,9 +2,9 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 /**
@@ -56,19 +56,19 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  * @method static \Illuminate\Database\Query\Builder|\App\Models\User withoutTrashed()
  * @property-read \App\Models\MedicalRecord $medicalRecord
  * @property-read \App\Models\MedicalRecord $medical_record
+ * @property string|null $registration_token
+ * @property string|null $registration_completed_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\EmailNotification[] $mailNotifications
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRegistrationCompletedAt($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\User whereRegistrationToken($value)
  */
-class User extends Authenticatable
+class User extends Authenticatable implements CanResetPassword
 {
     use Notifiable;
     use SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-        'name', 'email', 'password', 'role_id'
+    protected $guarded = [
+        'id'
     ];
 
     /**
@@ -114,9 +114,9 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function notifications()
+    public function mailNotifications()
     {
-        return $this->hasMany(Notification::class);
+        return $this->hasMany(EmailNotification::class);
     }
 
     /**
@@ -124,9 +124,19 @@ class User extends Authenticatable
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function medical_record()
+    public function medicalRecord()
     {
         return $this->hasOne(MedicalRecord::class);
+    }
+
+    /**
+     * Set a new password
+     *
+     * @param $password
+     */
+    public function setPasswordAttribute($password)
+    {
+        $this->attributes['password'] = bcrypt($password);
     }
 
     /**
@@ -143,12 +153,22 @@ class User extends Authenticatable
     public function hasRoles(...$roles)
     {
         foreach ($roles as $role) {
-            if ($this->role->role_name === $role){
+            if ($this->role->role_name === $role) {
                 return true;
             }
         }
         return false;
+    }
 
+    /**
+     * Return true if the user is a player
+     *
+     * @return bool
+     */
+    public function hasMedicalRecord(): bool
+    {
+        $record = MedicalRecord::where('user_id', $this->id)->first();
+        return $record ? true : false;
     }
 
 }

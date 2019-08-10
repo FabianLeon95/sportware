@@ -9277,6 +9277,18 @@ input[type=range]::-ms-thumb {
   padding: 0 !important;
 }
 
+.p-1 {
+  padding: 0.5rem !important;
+}
+
+.p-2 {
+  padding: 1rem !important;
+}
+
+.pb-2 {
+  padding-bottom: 1rem !important;
+}
+
 .py-1 {
   padding-top: 0.5rem !important;
   padding-bottom: 0.5rem !important;
@@ -9301,6 +9313,14 @@ input[type=range]::-ms-thumb {
 
 .mb-0 {
   margin-bottom: 0 !important;
+}
+
+.mb-2 {
+  padding-bottom: 1rem !important;
+}
+
+.mr-2 {
+  margin-right: 1rem !important;
 }
 
 .btn-big {
@@ -9371,7 +9391,6 @@ input[type=range]::-ms-thumb {
   color: #fff;
 }
 
-.sidenav li.active > a > i,
 .sidenav li.active > a > [class^=mdi-],
 .sidenav li.active > a li > a > [class*=mdi-],
 .sidenav li.active > a > i.material-icons {
@@ -9387,6 +9406,11 @@ input[type=range]::-ms-thumb {
 .sidenav .collapsible-body > ul a.active {
   background-color: #000060;
   font-weight: 500;
+}
+
+.sidenav .fa-notes-medical:before {
+  margin-left: 2.5px;
+  content: "\F481";
 }
 
 .login {
@@ -9409,6 +9433,20 @@ input[type=range]::-ms-thumb {
 
 .fa-football-ball:before {
   font-size: 0.8em;
+}
+
+.btn-group {
+  display: inline-block;
+}
+
+.btn-group .btn:first-child,
+.btn-group .btn-large:first-child,
+.btn-group .btn-small:first-child {
+  margin-right: 0.25em;
+}
+
+.fc-today {
+  background-color: #ffe88c;
 }
 
 @media only screen and (min-width: 992px) {

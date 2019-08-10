@@ -47,25 +47,17 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MedicalRecord whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MedicalRecord whereUserId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MedicalRecord whereWeight($value)
+ * @property string|null $dyslipidemias
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\MedicalRecord whereDyslipidemias($value)
  */
 class MedicalRecord extends Model
 {
+    protected $guarded = ['id'];
+    public $timestamps = false;
+
     public function user()
     {
         $this->belongsTo(User::class);
     }
 
-    public static function conditionStatus($id)
-    {
-        switch ($id) {
-            case 0:
-                return 'No tiene';
-            case 1:
-                return 'Personal';
-            case 2:
-                return 'Familiar';
-            case 3:
-                return 'Ambos';
-        }
-    }
 }

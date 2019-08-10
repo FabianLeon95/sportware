@@ -2,10 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\CreateEventCategoryRequest;
-use App\Http\Requests\EditEventCategoryRequest;
+use App\Http\Requests\EventCategoryRequest;
 use App\Models\EventCategory;
-use Illuminate\Http\Request;
+
 
 class EventCategoryController extends Controller
 {
@@ -37,10 +36,11 @@ class EventCategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CreateEventCategoryRequest $request)
+    public function store(EventCategoryRequest $request)
     {
         EventCategory::create([
             'category_name'=>$request->category_name,
+            'color' => $request->color,
             'description'=>$request->description
         ]);
 
@@ -76,10 +76,11 @@ class EventCategoryController extends Controller
      * @param  \App\Models\EventCategory  $category
      * @return \Illuminate\Http\Response
      */
-    public function update(EditEventCategoryRequest $request, EventCategory $category)
+    public function update(EventCategoryRequest $request, EventCategory $category)
     {
         $category->update([
             'category_name'=>$request->category_name,
+            'color' => $request->color,
             'description'=>$request->description
         ]);
 
@@ -91,13 +92,13 @@ class EventCategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\EventCategory  $category
-     * @return \Illuminate\Http\Response
+     * @param EventCategory $category
+     * @return \Illuminate\Http\RedirectResponse
+     * @throws \Exception
      */
     public function destroy(EventCategory $category)
     {
         $category->delete();
-
         return redirect()->route('category.index');
     }
 }

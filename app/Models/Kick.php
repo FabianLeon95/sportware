@@ -31,6 +31,8 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Kick whereYards($value)
  * @property string $type
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Kick whereType($value)
+ * @property-read \App\Models\Player $kicker
+ * @property-read \App\Models\Team $team
  */
 class Kick extends Model
 {

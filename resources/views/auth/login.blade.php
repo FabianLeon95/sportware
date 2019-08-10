@@ -20,7 +20,9 @@
 <div class="container">
     <div class="row">
         <div class="login z-depth-2 white">
-            <h4 class="center-align">{{ __('Login') }}</h4>
+            <div class="center-align mt-2">
+                <img class="responsive-img" src="/images/logo-1.png" alt="Bulldogs">
+            </div>
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="row mb-0">
@@ -52,11 +54,11 @@
                             <span>{{ __('Remember Me') }}</span>
                         </label>
                     </div>
-{{--                    @if (Route::has('password.request'))--}}
-                        <div class="col s6 right-align">
-                            <a href="{{ route('password.request') }}" class="">{{ __('Forgot Password?') }}</a>
-                        </div>
-{{--                    @endif--}}
+                    {{--                    @if (Route::has('password.request'))--}}
+                    <div class="col s6 right-align">
+                        <a href="{{ route('password.request') }}" class="">{{ __('Forgot Password?') }}</a>
+                    </div>
+                    {{--                    @endif--}}
 
                 </div>
 

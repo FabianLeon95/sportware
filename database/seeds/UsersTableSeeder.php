@@ -11,17 +11,13 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\User::create([
+        $admin = \App\Models\User::create([
             'role_id'=> 1,
             'name' => 'Fabián León',
             'email'=>'fabian30leon@gmail.com',
             'password'=>bcrypt('fLc.3008')
         ]);
-        \App\Models\User::create([
-            'role_id'=> 4,
-            'name' => 'Stephanie Chacon',
-            'email'=>'stepha0608@gmail.com',
-            'password'=>bcrypt('fLc.3008')
-        ]);
+        $admin->setPasswordAttribute('fLc.3008');
+        $admin->save();
     }
 }

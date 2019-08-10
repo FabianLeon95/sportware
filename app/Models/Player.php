@@ -32,6 +32,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $team_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Player whereTeamId($value)
  * @property-read \App\Models\Team $team
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\Event[] $events
  */
 class Player extends Model
 {
@@ -66,5 +67,10 @@ class Player extends Model
     public function team()
     {
         return $this->belongsTo(Team::class);
+    }
+
+    public function events()
+    {
+        return $this->belongsToMany(Event::class, 'event_assistances');
     }
 }

@@ -1,61 +1,70 @@
 <table>
-    <thead>
-    <tr>
-        <th>Condicion</th>
-        <th>Valor</th>
-    </tr>
-    </thead>
-
     <tbody>
     <tr>
-        <td>Diabetes</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->diabetes) }}</td>
+        <th>Height:</th>
+        <td colspan="2" style="padding: 0 5px;">
+            {{ $record->height }} <i>m</i>
+        </td>
     </tr>
     <tr>
-        <td>Hipertension</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->hypertension) }}</td>
+        <th>Weight:</th>
+        <td colspan="2" style="padding: 0 5px;">
+            {{ $record->weight }} <i>Kg</i>
+        </td>
+    </tr>
+    <tr>
+        <th>Diabetes</th>
+        @include('partials.components.record_checkbox', ['array' => json_decode($record->diabetes)])
+    </tr>
+    <tr>
+        <th>Hypertension</th>
+        @include('partials.components.record_checkbox', ['array' => json_decode($record->hypertension)])
+    </tr>
+    <tr>
+        <th>Dyslipidemias</th>
+        @include('partials.components.record_checkbox', ['array' => json_decode($record->dyslipidemias)])
+    </tr>
+    <tr>
+        <th>Cancer</th>
+        @include('partials.components.record_checkbox', ['array' => json_decode($record->cancer)])
+    </tr>
+    <tr>
+        <th>Cardiovascular</th>
+        @include('partials.components.record_checkbox', ['array' => json_decode($record->cardiovascular)])
+    </tr>
+    <tr>
+        <th>Neurological</th>
+        @include('partials.components.record_checkbox', ['array' => json_decode($record->neurological)])
     </tr>
 
     <tr>
-        <td>Dislipidemias</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->dyslipidemia) }}</td>
+        <th>Bruises</th>
+        @include('partials.components.record_radio', ['value' => $record->bruises])
     </tr>
     <tr>
-        <td>Cancer</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->cancer) }}</td>
+        <th>Fractures</th>
+        @include('partials.components.record_radio', ['value' => $record->fractures])
     </tr>
     <tr>
-        <td>Cardiovasculares</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->cardiovascular) }}</td>
+        <th>Muscle Injuries</th>
+        @include('partials.components.record_radio', ['value' => $record->muscle_injuries])
+    </tr>
+
+    <tr>
+        <th>Alcohol</th>
+        @include('partials.components.record_radio', ['value' => $record->tobacco])
     </tr>
     <tr>
-        <td>Neurologicas</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->neurological) }}</td>
+        <th>Tobacco</th>
+        @include('partials.components.record_radio', ['value' => $record->alcohol])
     </tr>
-    <tr>
-        <td>Contusiones</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->bruises) }}</td>
-    </tr>
-    <tr>
-        <td>Fracturas</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->fractures) }}</td>
-    </tr>
-    <tr>
-        <td>Lesiones Musculares</td>
-        <td>{{ \App\Models\MedicalRecord::conditionStatus($user->medical_record->muscle_injuries) }}</td>
-    </tr>
-    <tr>
-        <td>Fuma</td>
-        <td>{{ ($user->medical_record->tobacco)?'Si':'No' }}</td>
-    </tr>
-    <tr>
-        <td>Bebe</td>
-        <td>{{ ($user->medical_record->alcohol)?'Si':'No' }}</td>
-    </tr>
-    <tr>
-        <td>Otros</td>
-        <td>{{ $user->medical_record->others }}</td>
-    </tr>
-    </tr>
+    @if ($record->other)
+        <tr>
+            <th>Other:</th>
+            <td colspan="2" style="padding: 0 5px;">
+                {{ $record->other }}
+            </td>
+        </tr>
+    @endif
     </tbody>
 </table>

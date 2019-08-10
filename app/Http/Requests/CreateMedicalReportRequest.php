@@ -28,7 +28,7 @@ class CreateMedicalReportRequest extends FormRequest
             'visit_reason' => 'required|max:255',
             'diagnostic' => 'required',
             'treatment' => 'required',
-            'files.*' => 'mimes:jpg,jpeg,png,bmp,pdf|max:20000'
+            'files.*' => 'mimes:jpg,jpeg,png,pdf,doc,docx|max:20000'
         ];
     }
 }

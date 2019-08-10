@@ -12,12 +12,25 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('login');
 });
 
 Auth::routes(['register' => false]);
 Route::resource('users', 'UserController');
 Route::resource('players', 'PlayerController');
+Route::get('/player-from-user', 'PlayerController@createFromUser')->name('player.create.user');
+Route::post('/player-from-user', 'PlayerController@storeFromUser')->name('player.store.user');
+
+Route::group(['prefix' => 'user'], function() {
+    Route::get('{user}/profile', 'ProfileController@info')->name('profile.info');
+    Route::get('{user}/security', 'ProfileController@password')->name('profile.password');
+    Route::post('{user}/profile', 'ProfileController@updateInfo')->name('profile.info.update');
+    Route::post('{user}/security', 'ProfileController@updatePassword')->name('profile.password.update');
+});
+
+Route::get('complete-registration/{token}', 'CompleteRegistrationController@registration')->name('registration.form');
+Route::post('complete-registration/{user}', 'CompleteRegistrationController@update')->name('registration.update');
+
 Route::get('players/get/{team}', 'PlayerController@getPlayers');
 
 Route::get('/home', 'HomeController@index')->name('home');
@@ -27,13 +40,28 @@ Route::get('/medical/{user}', 'MedicalController@show')->name('medical.show');
 Route::get('/medical/search/{param}', 'MedicalController@search')->name('medical.search');
 
 //Route::resource('medical/reports', 'MedicalReportController');
-Route::get('/medical/reports/create/{user}', 'MedicalReportController@create')->name('reports.create');
-Route::post('/medical/reports/store', 'MedicalReportController@store')->name('reports.store');
-Route::get('/medical/reports/edit/{report}', 'MedicalReportController@edit')->name('reports.edit');
-Route::put('/medical/reports/update/{report}', 'MedicalReportController@update')->name('reports.update');
-Route::get('/medical/reports/show/{report}', 'MedicalReportController@show')->name('reports.show');
+Route::group(['prefix' => 'medical/reports'], function() {
+    Route::get('create/{user}', 'MedicalReportController@create')->name('reports.create');
+    Route::post('store', 'MedicalReportController@store')->name('reports.store');
+    Route::get('edit/{report}', 'MedicalReportController@edit')->name('reports.edit');
+    Route::put('update/{report}', 'MedicalReportController@update')->name('reports.update');
+    Route::get('show/{report}', 'MedicalReportController@show')->name('reports.show');
+});
 
-Route::get('/medical/record/create/{user}', 'MedicalRecordController@create')->name('record.create');
+Route::group(['prefix' => 'medical/record'], function() {
+    Route::get('create/{user}', 'MedicalRecordController@create')->name('record.create')
+        ->middleware(\App\Http\Middleware\UserHasMedicalRecord::class);
+    Route::post('create/{user}', 'MedicalRecordController@store')->name('record.store')
+        ->middleware(\App\Http\Middleware\UserHasMedicalRecord::class);
+    Route::get('edit/{user}', 'MedicalRecordController@edit')->name('record.edit');
+    Route::post('edit/{user}', 'MedicalRecordController@update')->name('record.update');
+});
+
+Route::group(['prefix' => 'notifications'], function() {
+    Route::get('/', 'EmailNotificationController@index')->name('notification.index');
+    Route::get('/create', 'EmailNotificationController@create')->name('notification.create');
+    Route::post('/store', 'EmailNotificationController@store')->name('notification.store');
+});
 
 Route::resource('rookies','RookieController')->parameter('rookies', 'rookie');
 //Route::post('/rookies/user', 'RookieController@storeWithUser')->name('rookies.store.user');
@@ -42,6 +70,11 @@ Route::resource('positions','PositionController');
 Route::resource('seasons','SeasonController');
 Route::resource('events/category','EventCategoryController');
 Route::resource('teams','TeamController');
+Route::resource('events','EventController');
+
+Route::get('/events/all-events/{event}','EventController@allEvents')->name('events.ajax');
+Route::get('/events/assistance/{event}','EventAssistanceController@create')->name('assistance.create');
+Route::post('/events/assistance/{event}','EventAssistanceController@update')->name('assistance.update');
 
 Route::get('/plays/{match}', 'PlaysController@index')->name('plays.index');
 Route::get('/kickoff/{match}', 'PlaysController@kickoff')->name('plays.kickoff');
@@ -82,4 +115,9 @@ Route::get('/matches/{season}/create', 'MatchController@create')->name('match.cr
 Route::post('/matches/{season}/create', 'MatchController@store')->name('match.store');
 
 Route::get('/testing/{match}', 'PlaysController@playsTesting');
+
+Route::get('job', function () {
+    dispatch(new \App\Jobs\SendEmail());
+    return 'ok';
+});
 

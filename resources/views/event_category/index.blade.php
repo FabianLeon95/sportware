@@ -1,5 +1,15 @@
 @extends('layouts.layout')
 
+@section('styles')
+    <style>
+        .color {
+            padding: 5px 10px;
+            color: #fff;
+            border-radius: 100px;
+        }
+    </style>
+@stop
+
 @section('content')
     <div class="card">
         <div class="card-content">
@@ -19,6 +29,7 @@
                 <tr>
                     <th>Category</th>
                     <th>Description</th>
+                    <th>Color</th>
                     <th></th>
                 </tr>
                 </thead>
@@ -28,8 +39,10 @@
                     <tr>
                         <td>{{ $category->category_name }}</td>
                         <td>{{ $category->description }}</td>
+                        <td><span class="color" style="background-color: {{ $category->color }}">{{ $category->color }}</span></td>
                         <th class="right-align">
-                            <a class="dropdown-trigger btn-icon btn-flat waves-effect" data-target='category{{$category->id}}'>
+                            <a class="dropdown-trigger btn-icon btn-flat waves-effect"
+                               data-target='category{{$category->id}}'>
                                 <i class="material-icons">more_vert</i>
                             </a>
                             <ul id='category{{$category->id}}' class='dropdown-content'>
@@ -38,7 +51,8 @@
                                                 class="material-icons">edit</i>Edit</a>
                                 </li>
                                 <li>
-                                    <a href="#delete-confirm-{{ $category->id }}" class="modal-trigger"><i class="material-icons">delete</i>Delete</a>
+                                    <a href="#delete-confirm-{{ $category->id }}" class="modal-trigger"><i
+                                                class="material-icons">delete</i>Delete</a>
                                 </li>
                             </ul>
                         </th>

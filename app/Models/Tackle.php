@@ -25,6 +25,9 @@ use Illuminate\Database\Eloquent\Model;
  * @mixin \Eloquent
  * @property int $tackler_id
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Tackle whereTacklerId($value)
+ * @property-read \App\Models\Player $assist
+ * @property-read \App\Models\Player $tackler
+ * @property-read \App\Models\Team $team
  */
 class Tackle extends Model
 {

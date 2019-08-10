@@ -13,6 +13,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.9.0/css/all.min.css">
     @yield('styles')
 </head>
 
@@ -20,7 +21,7 @@
 
 <nav class="nav-extended">
     <div class="nav-wrapper">
-        <a href="#" class="brand-logo hide-on-large-only"><img class="materialboxed" src="/images/logo-1.png" height="56px" alt=""></a>
+        <a href="{{ route('home') }}" class="brand-logo hide-on-large-only"><img class="materialboxed" src="/images/logo-1.png" height="56px" alt=""></a>
         <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="top-menu" class="right">
             <li><a class="dropdown-trigger user" data-target="user-dropdown">
@@ -36,15 +37,11 @@
 
 <ul id="user-dropdown" class="dropdown-content">
     <li>
-        <a href="#!">
+        <a href="{{ route('profile.info', \Illuminate\Support\Facades\Auth::user()) }}">
             <i class="material-icons">person</i> {{ Auth::user()->name }}
         </a>
     </li>
     <li class="divider"></li>
-    <li>
-        <a href="#!"><i class="material-icons">settings</i> Settings
-        </a>
-    </li>
     <li>
         <a href="{{ route('logout') }}"
            onclick="event.preventDefault();
