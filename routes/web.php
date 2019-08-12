@@ -68,13 +68,19 @@ Route::resource('rookies','RookieController')->parameter('rookies', 'rookie');
 
 Route::resource('positions','PositionController');
 Route::resource('seasons','SeasonController');
-Route::resource('events/category','EventCategoryController');
 Route::resource('teams','TeamController');
+
+
 Route::resource('events','EventController');
+Route::resource('events-category/category','EventCategoryController');
+
+//Route::resource('event-category', 'EventCategoryController');
 
 Route::get('/events/all-events/{event}','EventController@allEvents')->name('events.ajax');
 Route::get('/events/assistance/{event}','EventAssistanceController@create')->name('assistance.create');
 Route::post('/events/assistance/{event}','EventAssistanceController@update')->name('assistance.update');
+
+Route::delete('/play/{play}', 'PlaysController@deletePlay')->name('plays.delete');
 
 Route::get('/plays/{match}', 'PlaysController@index')->name('plays.index');
 Route::get('/kickoff/{match}', 'PlaysController@kickoff')->name('plays.kickoff');
@@ -103,10 +109,10 @@ Route::post('/interception/{match}', 'PlaysController@interception')->name('play
 Route::get('/run/{match}', 'PlaysController@runForm')->name('plays.run');
 Route::post('/run/{match}', 'PlaysController@run')->name('plays.run.create');
 
-Route::get('/swap', 'PlaysController@swap')->name('plays.swap');
-
 Route::get('/kickoff-yardline/{team}', 'PlaysController@getKickOffYardLine')->name('plays.kickoff-yardline');
 
+Route::get('/swap', 'PlaysController@swap')->name('plays.swap');
+Route::post('/end-quarter/{match}', 'PlaysController@endQuarter')->name('plays.end-quarter');
 
 Route::get('/matches', 'MatchController@index')->name('match.index');
 Route::post('/matches', 'MatchController@season')->name('match.season');
@@ -115,9 +121,4 @@ Route::get('/matches/{season}/create', 'MatchController@create')->name('match.cr
 Route::post('/matches/{season}/create', 'MatchController@store')->name('match.store');
 
 Route::get('/testing/{match}', 'PlaysController@playsTesting');
-
-Route::get('job', function () {
-    dispatch(new \App\Jobs\SendEmail());
-    return 'ok';
-});
 

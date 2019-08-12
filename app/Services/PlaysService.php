@@ -15,6 +15,7 @@ use App\Models\ReturnPlay;
 use App\Models\Tackle;
 use App\Models\Team;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -44,6 +45,40 @@ class PlaysService
                 'home_points' => 0,
                 'visit_points' => 0,
             ]);
+        }
+    }
+
+    public function getPlays(Match $match)
+    {
+        $firstPlay = Play::where('match_id', $match->id)->oldest()->first();
+        $plays = Play::with('team')
+            ->where('match_id', $match->id)
+            ->where('id', '!=', $firstPlay->id)->orderBy('created_at')
+            ->get();
+        return $plays;
+    }
+
+    public function deletePlay(Play $play)
+    {
+        if ($play) {
+            $lastPlay = Play::where('match_id', $play->match_id)->latest()->first();
+            if ($lastPlay == $play) {
+                $tables = ['field_goals', 'fumbles', 'interceptions', 'kicks', 'passes', 'penalties', 'punts', 'recoveries',
+                    'return_plays', 'runs', 'tackles'];
+                try {
+                    foreach ($tables as $table) {
+                        DB::table($table)->where('play_id', $play->id)->delete();
+                    }
+                    $play->delete();
+                    return true;
+                } catch (\Exception $e) {
+                    return false;
+                }
+            } else {
+                return abort(400);
+            }
+        } else {
+            return abort(404);
         }
     }
 
@@ -258,6 +293,7 @@ class PlaysService
             if ($play->left_team->id == $match->home_team_id) {
                 Session::put('ball_on', Session::get('ball_on') - $foul->distance);
             } else {
+
                 Session::put('ball_on', Session::get('ball_on') + $foul->distance);
             }
             Penalty::create([
@@ -283,6 +319,8 @@ class PlaysService
         }
 
         $currentPlay = $this->currentPlay($match);
+
+        // Se verifica si pasa a primer down aun despues del penalty
         if ($currentPlay->team_id === $currentPlay->left_team_id) {
             $toGo = $currentPlay->to_go;
             $advanced = Session::get('ball_on') - $currentPlay->ball_on;
@@ -298,13 +336,47 @@ class PlaysService
                 Session::put('down', (int)$currentPlay->down + 1);
             }
         }
+
+        // Verifica si hay Safety
+        $newBallOn = Session::get('ball_on');
+        if ($newBallOn <= 0) {
+            if ($currentPlay->right_team_id == $match->home_team_id) {
+                Session::put('home_points', 2);
+                Session::put('team_id', $match->home_team_id);
+                Session::put('down', 1);
+                Session::put('to_go', 10);
+                Session::put('ball_on', 0 + $this->kickOffYardLine);
+            } else {
+                Session::put('visit_points', 2);
+                Session::put('team_id', $match->visit_team_id);
+                Session::put('down', 1);
+                Session::put('to_go', 10);
+                Session::put('ball_on', 100 - $this->kickOffYardLine);
+            }
+            Session::put('switch_team', false);
+
+        } elseif ($newBallOn >= 100) {
+            if ($currentPlay->left_team_id == $match->home_team_id) {
+                Session::put('home_points', 2);
+                Session::put('team_id', $match->home_team_id);
+                Session::put('down', 1);
+                Session::put('to_go', 10);
+                Session::put('ball_on', 0 + $this->kickOffYardLine);
+            } else {
+                Session::put('visit_points', 2);
+                Session::put('team_id', $match->visit_team_id);
+                Session::put('down', 1);
+                Session::put('to_go', 10);
+                Session::put('ball_on', 100 - $this->kickOffYardLine);
+            }
+            Session::put('switch_team', false);
+        }
     }
 
 
     public function playStartup(Match $match)
     {
         $play = $this->currentPlay($match);
-
 
         Session::put('play_id', Str::uuid());
         Session::put('match_id', $play->match_id);

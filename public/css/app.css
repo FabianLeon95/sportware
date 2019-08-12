@@ -3502,7 +3502,7 @@ table span.badge {
 .container {
   margin: 0 auto;
   max-width: 1280px;
-  width: 90%;
+  width: 95%;
 }
 
 @media only screen and (min-width : 601px) {
@@ -4973,7 +4973,7 @@ small {
 
 .card-panel {
   transition: box-shadow 0.25s;
-  padding: 24px;
+  padding: 16px;
   margin: 0.5rem 0 1rem 0;
   border-radius: 2px;
   background-color: #fff;
@@ -5112,11 +5112,11 @@ small {
   bottom: 0;
   left: 0;
   max-width: 100%;
-  padding: 24px;
+  padding: 16px;
 }
 
 .card .card-content {
-  padding: 24px;
+  padding: 16px;
   border-radius: 0 0 2px 2px;
 }
 
@@ -5138,7 +5138,7 @@ small {
   background-color: inherit;
   border-top: 1px solid rgba(160, 160, 160, 0.2);
   position: relative;
-  padding: 16px 24px;
+  padding: 16px 16px;
 }
 
 .card .card-action:last-child {
@@ -5147,7 +5147,7 @@ small {
 
 .card .card-action a:not(.btn):not(.btn-small):not(.btn-large):not(.btn-large):not(.btn-floating) {
   color: #ffab40;
-  margin-right: 24px;
+  margin-right: 16px;
   transition: color 0.3s ease;
   text-transform: uppercase;
 }
@@ -5157,7 +5157,7 @@ small {
 }
 
 .card .card-reveal {
-  padding: 24px;
+  padding: 16px;
   position: absolute;
   background-color: #fff;
   width: 100%;

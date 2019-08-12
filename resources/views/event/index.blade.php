@@ -82,7 +82,6 @@
                         };
                         sources.push(object);
                     }
-                    console.log(sources);
                     SetCalendar(sources);
                 },
                 complete: function () {
@@ -99,7 +98,7 @@
                 for( var i = 0; i < events.length; i++){
                     let obj = {
                         title: events[i].description,
-                        start: events[i].date+'T'+events[i].time,
+                        start: events[i].date, // +'T'+events[i].time : Para agregar hora
                         url: '/events/'+ events[i].id
                     };
                     array.push(obj);
@@ -112,6 +111,7 @@
                 var calendar = new FullCalendar.Calendar(calendarEl, {
                     plugins: ['dayGrid', 'bootstrap'],
                     themeSystem: 'bootstrap',
+                    height: 'auto',
                     eventSources: sources
                 });
                 calendar.render();

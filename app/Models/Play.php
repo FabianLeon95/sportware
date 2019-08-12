@@ -42,4 +42,14 @@ class Play extends Model
 {
     protected $guarded = [];
     public $incrementing = false;
+
+    public function match()
+    {
+        return $this->belongsTo(Match::class);
+    }
+
+    public function team()
+    {
+        return $this->belongsTo(Team::class);
+    }
 }

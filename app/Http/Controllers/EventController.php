@@ -70,7 +70,7 @@ class EventController extends Controller
     {
         $event = Event::with('playersWhoAttended')->findOrFail($id);
         $event->date = Carbon::parse($event->date)->toFormattedDateString();
-        $event->time = Carbon::parse($event->time)->format('H:i A');
+        $event->time = Carbon::parse($event->time)->format('h:i A');
         return view('event.show', compact('event'));
     }
 
@@ -84,7 +84,7 @@ class EventController extends Controller
     {
         $event = Event::findOrFail($id);
         $event->date = Carbon::parse($event->date)->toFormattedDateString();
-        $event->time = Carbon::parse($event->time)->format('H:i A');
+        $event->time = Carbon::parse($event->time)->format('h:i A');
         $categories = EventCategory::all();
         return view('event.edit', compact('event', 'categories'));
     }

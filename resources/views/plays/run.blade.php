@@ -30,7 +30,7 @@
                             <option value="{{ $player->id }}">#{{ $player->shirt_number }} {{ ($player->user) ? $player->user->name: '' }}</option>
                         @endforeach
                     </select>
-                    <label for="runner">Passer</label>
+                    <label for="runner">Runner</label>
                 </div>
 
                 <div class="row mt-5">

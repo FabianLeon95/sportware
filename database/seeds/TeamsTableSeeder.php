@@ -12,7 +12,7 @@ class TeamsTableSeeder extends Seeder
     public function run()
     {
         \App\Models\Team::create([
-            'name' => 'Bull Dogs',
+            'name' => 'Bulldogs',
             'location' => 'San Jose'
         ]);
     }

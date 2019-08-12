@@ -20,23 +20,24 @@
                 No matches found, create a new one.
             @else
                 @foreach ($matches as $match)
-                    <div class="card blue darken-1">
-                        <div class="card-content text-white" style="padding: 1em">
-                            <div class="row mb-0">
-                                <div class="col s2">
-                                    {{ $match->date }}
-                                </div>
-                                <div class="col s8">
-                                    <p>Home: {{ $match->homeTeam->name }}</p>
-                                    <p>Visit: {{ $match->visitTeam->name }}</p>
-                                </div>
-                                <div class="col s2">
-                                    <a href="{{ route('plays.index', $match) }}" class="btn waves-effect"><i class="material-icons">
-                                            navigate_next
-                                        </i>
-                                    </a>
-                                </div>
-                            </div>
+                    <div class="card" style="background-color: #000060">
+                        <div class="card-content white-text" style="padding: 1em">
+                            <table style="border-collapse: inherit">
+                                <tr>
+                                    <td> {{ $match->date }}</td>
+                                    <td>
+                                        <p><b>Home:</b> {{ $match->homeTeam->name }}</p>
+                                        <p><b>Visit:</b> {{ $match->visitTeam->name }}</p>
+                                    </td>
+                                    <td class="right-align">
+                                        <a href="{{ route('plays.index', $match) }}" class="btn waves-effect">
+                                            <i class="material-icons">
+                                                navigate_next
+                                            </i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 @endforeach

@@ -22,7 +22,7 @@ class CreatePlaysTable extends Migration
             $table->enum('down', [1,2,3,4]);
             $table->tinyInteger('to_go');
             $table->tinyInteger('ball_on');
-            $table->enum('quarter',[1,2,3,4]);
+            $table->enum('quarter',[1,2,3,4,5]);
             $table->tinyInteger('home_points');
             $table->tinyInteger('visit_points');
             $table->timestamps();

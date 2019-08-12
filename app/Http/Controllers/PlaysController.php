@@ -9,6 +9,7 @@ use App\Models\Kick;
 use App\Models\Match;
 use App\Models\Pass;
 use App\Models\PassStatus;
+use App\Models\Play;
 use App\Models\Player;
 use App\Models\Punt;
 use App\Models\Run;
@@ -17,6 +18,7 @@ use App\Services\PlayDescriptionService;
 use App\Services\PlaysService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -39,10 +41,37 @@ class PlaysController extends Controller
     {
         $this->ps->init($match);
         $this->ps->playStartup($match);
-        $play = $this->ps->getPlayStatus();
+        $currentPlay = $this->ps->getPlayStatus();
         $score = $this->ps->score($match);
+        $plays = $this->ps->getPlays($match);
 
-        return view('plays.index', compact('play', 'match', 'score'));
+        return view('plays.index', compact('currentPlay', 'match', 'score', 'plays'));
+    }
+
+    public function deletePlay(Play $play)
+    {
+        $this->ps->deletePlay($play);
+        return redirect()->route('plays.index', [$play->match_id, '#plays']);
+    }
+
+    public function endQuarter(Match $match)
+    {
+        $this->ps->playStartup($match);
+        $currentPlay = $this->ps->getPlayStatus();
+        if ($currentPlay->quarter < 5)
+        {
+            Session::put('quarter', $currentPlay->quarter+1);
+            $this->ps->endPlay($match);
+        } else {
+            $endPlay = Play::where('match_id', $match->id)
+                ->where('quarter', 5)
+                ->latest()->firstOrFail();
+            if ($endPlay){
+                $this->ps->deletePlay($endPlay);
+            }
+        }
+
+        return redirect()->back();
     }
 
     public function swap()
@@ -53,9 +82,8 @@ class PlaysController extends Controller
 
     public function playsTesting(Match $match)
     {
-//        $pds = new PlayDescriptionService();
-//        $pds->plays($match);
-        Mail::send('view', ['data'], function($message){});
+        $pds = new PlayDescriptionService();
+        $pds->plays($match);
     }
 
     public function kickOff(Match $match)
@@ -207,6 +235,7 @@ class PlaysController extends Controller
             if ($newBallOn >= 100) {
                 $touchdown = 1;
                 $this->ps->addPoints($match, $request->team, 6);
+                $specials->push('point_after');
                 Session::put('ball_on', 0 + $this->kickOffYardLine);
             } else {
                 $outDown = $this->getPlayResult($request, 1);
@@ -229,6 +258,9 @@ class PlaysController extends Controller
     {
         $this->ps->playStartup($match);
         $specials = collect($request->specials)->reverse();
+        if ($request->status == 2) {
+            $request['yards'] = 0;
+        }
         $playResult = $this->evaluateTeamSidePlay($request, $match, $specials);
 
         $outDown = $playResult->get('outDown');
@@ -319,7 +351,7 @@ class PlaysController extends Controller
                 $touchdown = 1;
             } else {
                 // Hay tackle a menos que haya fair catch o fumble
-                if (!($specials->contains('touch_down') || $specials->contains('fumble'))) {
+                if (!($specials->contains('fair_catch') || $specials->contains('fumble'))) {
                     $specials->push('tackle');
                 }
                 Session::put('ball_on', $newBallOn);
@@ -438,28 +470,28 @@ class PlaysController extends Controller
                 if ($request->status == 'good') {
                     $this->ps->addPoints($match, $request->team, 2);
                     $run->update([
-                        'yards' => 2,
+                        'yards' => 2
                     ]);
                     $run->save();
                 }
                 break;
 
             case 'pass':
-                $pass = Run::create([
+                $pass = Pass::create([
                     'match_id' => $match->id,
                     'play_id' => Session::get('play_id'),
                     'team_id' => $request->team,
                     'passer_id' => $request->passer,
                     'receiver_id' => $request->receiver,
                     'yards' => 0,
-                    'status_id' => 'incomp',
-                    'special_id' => 0
+                    'status_id' => 2,
+                    'touchdown' => 0
                 ]);
                 if ($request->status == 'good') {
                     $this->ps->addPoints($match, $request->team, 2);
                     $pass->update([
                         'yards' => 2,
-                        'status_id' => 'comp',
+                        'status_id' => 1
                     ]);
                     $pass->save();
                 }
@@ -539,6 +571,8 @@ class PlaysController extends Controller
             if (($newBallOn >= 100) && ($request->status == 1)) {
                 $this->ps->addPoints($match, $request->team, 3);
                 Session::put('ball_on', 0 + $this->kickOffYardLine);
+                Session::put('to_go', 10);
+                Session::put('down', 1);
                 $good = 1;
             } else {
                 Session::put('ball_on', $request->ball_on);
@@ -548,6 +582,8 @@ class PlaysController extends Controller
             if (($newBallOn <= 0) && ($request->status == 1)) {
                 $this->ps->addPoints($match, $request->team, 3);
                 Session::put('ball_on', 100 - $this->kickOffYardLine);
+                Session::put('to_go', 10);
+                Session::put('down', 1);
                 $good = 1;
             } else {
                 Session::put('ball_on', $request->ball_on);
