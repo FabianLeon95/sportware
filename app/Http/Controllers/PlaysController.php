@@ -16,6 +16,7 @@ use App\Models\Run;
 use App\Models\Team;
 use App\Services\PlayDescriptionService;
 use App\Services\PlaysService;
+use App\Services\StatsService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
@@ -44,8 +45,11 @@ class PlaysController extends Controller
         $currentPlay = $this->ps->getPlayStatus();
         $score = $this->ps->score($match);
         $plays = $this->ps->getPlays($match);
+        $statsService = new StatsService();
+        $stats = $statsService->teamStatComparision($match);
+//        dd($stats);
 
-        return view('plays.index', compact('currentPlay', 'match', 'score', 'plays'));
+        return view('plays.index', compact('currentPlay', 'match', 'score', 'plays', 'stats'));
     }
 
     public function deletePlay(Play $play)

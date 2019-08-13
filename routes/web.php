@@ -122,3 +122,5 @@ Route::post('/matches/{season}/create', 'MatchController@store')->name('match.st
 
 Route::get('/testing/{match}', 'PlaysController@playsTesting');
 
+Route::get('stats-test', 'StatsController@test');
+
