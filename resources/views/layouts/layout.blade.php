@@ -21,7 +21,7 @@
 
 <nav class="nav-extended">
     <div class="nav-wrapper">
-        <a href="{{ route('home') }}" class="brand-logo hide-on-large-only"><img class="materialboxed" src="/images/logo-1.png" height="56px" alt=""></a>
+        <a href="{{ route('home') }}" class="brand-logo hide-on-large-only"><img src="/images/logo-1.png" height="56px" alt=""></a>
         <a href="#" data-target="nav-mobile" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul id="top-menu" class="right">
             <li><a class="dropdown-trigger user" data-target="user-dropdown">

@@ -3,23 +3,24 @@
         <img src="/images/logo-3.png" height="56px" style="margin: 0.5em auto" alt="">
     </li>
     @if(Auth::user()->hasRoles('admin'))
-    <li>
-        <a href="{{ route('users.index') }}" style="padding: 0 16px">
-            <i class="material-icons left" style="margin-right: 1rem">person</i>
-            Users
-        </a>
-    </li>
+        <li>
+            <a href="{{ route('users.index') }}" style="padding: 0 16px">
+                <i class="material-icons left" style="margin-right: 1rem">person</i>
+                Users
+            </a>
+        </li>
     @endif
     @if(Auth::user()->hasRoles('admin','medic'))
         <li>
             <a href="{{ route('medical.index') }}" style="padding: 0 16px">
-                <i class="fas fa-notes-medical" style="float: left !important;margin-right: 1rem;font-size: 1.6rem;"></i>
+                <i class="fas fa-notes-medical"
+                   style="float: left !important;margin-right: 1rem;font-size: 1.6rem;"></i>
                 Medical</a>
         </li>
     @endif
     @if(Auth::user()->hasRoles('admin','stats','player'))
         <li>
-            <a href="#" style="padding: 0 16px">
+            <a href="{{ route('stats.index') }}" style="padding: 0 16px">
                 <i class="fas fa-chart-bar" style="float: left !important;margin-right: 1rem;font-size: 1.6rem;"></i>
                 Stats</a>
         </li>
@@ -62,18 +63,22 @@
                         </ul>
                     </div>
                 </li>
-                <li>
-                    <a class="collapsible-header"><i class="fas fa-calendar-alt" style="float: left !important;margin-right: 1rem;"></i>Events<i class="material-icons">
-                            chevron_right
-                        </i> </a>
-                    <div class="collapsible-body">
-                        <ul>
-                            <li><a href="{{route('events.index')}}">Calendar</a></li>
-                            <li><a href="{{ route('category.index') }}">Event Categories</a></li>
-                        </ul>
-                    </div>
-                </li>
             @endif
+            <li>
+                <a class="collapsible-header"><i class="fas fa-calendar-alt"
+                                                 style="float: left !important;margin-right: 1rem;"></i>Events<i
+                            class="material-icons">
+                        chevron_right
+                    </i> </a>
+                <div class="collapsible-body">
+                    <ul>
+                        <li><a href="{{route('events.index')}}">Calendar</a></li>
+                        @if(Auth::user()->hasRoles('admin','stats','medic'))
+                            <li><a href="{{ route('category.index') }}">Event Categories</a></li>
+                        @endif
+                    </ul>
+                </div>
+            </li>
         </ul>
     </li>
 </ul>

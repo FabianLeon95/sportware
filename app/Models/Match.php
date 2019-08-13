@@ -45,4 +45,11 @@ class Match extends Model
     {
         return $this->hasOne(Team::class, 'id', 'visit_team_id');
     }
+
+    public function season()
+    {
+        return $this->belongsTo(Season::class);
+    }
+
+
 }

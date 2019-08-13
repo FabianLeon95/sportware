@@ -17,9 +17,24 @@ class StatsController extends Controller
         $this->statsService = $statsService;
     }
 
+    public function index()
+    {
+        $matches = Match::orderBy('season_id')->paginate(10);
+        return view('stats.index', compact('matches'));
+    }
+
+    public function show($match)
+    {
+        $match = Match::findOrFail($match);
+        $statsService = new StatsService();
+        $stats = $statsService->teamStatComparision($match);
+
+        return view('stats.show', compact('stats','match'));
+    }
+
     public function test()
     {
-        $stast = $this->statsService->teamStatComparision(Match::find(2));
+        $stast = $this->statsService->teamStatComparision(Match::find(3));
         dd($stast);
     }
 

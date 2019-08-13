@@ -80,16 +80,31 @@ class StatsService
     {
         $runs = Run::where('match_id', $match->id)
             ->where('team_id', $team_id)->groupBy('team_id')
-            ->selectRaw('count(*) as number_of_plays, sum(yards) as total_offense, avg(yards) as yards_per_play, team_id')->get()->toArray();
+            ->selectRaw('count(*) as number_of_plays, sum(yards) as total_offense, avg(yards) as yards_per_play, team_id')->first();
 
         $passes = Pass::where('match_id', $match->id)
             ->where('team_id', $team_id)->groupBy('team_id')
-            ->selectRaw('count(*) as number_of_plays, sum(yards) as total_offense, avg(yards) as yards_per_play, team_id')->get()->toArray();
+            ->selectRaw('count(*) as number_of_plays, sum(yards) as total_offense, avg(yards) as yards_per_play, team_id')->first();
+
+        $numberOfPlays = 0;
+        $totalOffense = 0;
+        $yardsPerPlay = 0;
+
+        if ($runs) {
+            $numberOfPlays += $runs->number_of_plays;
+            $totalOffense += $runs->total_offense;
+            $yardsPerPlay += $runs->yards_per_play;
+        }
+        if ($passes) {
+            $numberOfPlays += $passes->number_of_plays;
+            $totalOffense += $passes->total_offense;
+            $yardsPerPlay += $passes->yards_per_play;
+        }
 
         $offense = [
-            'number_of_plays' => $runs[0]['number_of_plays'] + $passes[0]['number_of_plays'],
-            'total_offense' => $runs[0]['total_offense'] + $passes[0]['total_offense'],
-            'yards_per_play' => ($runs[0]['yards_per_play'] + $passes[0]['yards_per_play']) / 2
+            'number_of_plays' => $numberOfPlays,
+            'total_offense' => $totalOffense,
+            'yards_per_play' => $yardsPerPlay/2
         ];
 
         return $offense;
@@ -107,7 +122,21 @@ class StatsService
             sum(DISTINCT case when status_id = 1 then 1 else 0 end) as completions,
             sum(DISTINCT case when status_id = 3 then 1 else 0 end) as interceptions,
             sum(touchdown) as touchdowns,
-            avg(yards) as yards_per_pass")->first()->toArray();
+            avg(yards) as yards_per_pass")->first();
+
+        if ($passes) {
+            $passes = $passes->toArray();
+        } else {
+            $passes = [
+                'passing' => 0,
+                'attempts' => 0,
+                'completions' => 0,
+                'interceptions' => 0,
+                'touchdowns' => 0,
+                'yards_per_pass' => 0
+            ];
+        }
+
 
         return $passes;
     }
@@ -121,7 +150,18 @@ class StatsService
             sum(yards) as rushing,
             count(*) as rushing_attempts,
             sum(touchdown) as touchdowns,
-            avg(yards) as yards_per_rush")->first()->toArray();
+            avg(yards) as yards_per_rush")->first();
+
+        if ($runs){
+            $runs = $runs->toArray();
+        } else {
+            $runs = [
+                'rushing' => 0,
+                'rushing_attempts' => 0,
+                'touchdowns' => 0,
+                'yards_per_rush' => 0
+            ];
+        }
 
         return $runs;
     }
@@ -134,8 +174,16 @@ class StatsService
             ->groupBy('penalties.team_id')
             ->selectRaw('count(penalties.id) as penalties, sum(fouls.distance) as yards_loss')->first();
 
+        if ($penalties){
+            $penalties = $penalties->toArray();
+        } else {
+            $penalties = [
+                'penalties' => 0,
+                'yards_loss' => 0
+            ];
+        }
 
-        return ['penalties' => $penalties->penalties, 'yards_loss' => $penalties->yards_loss];
+        return $penalties;
     }
 
     public function turnover(Match $match, $team_id)

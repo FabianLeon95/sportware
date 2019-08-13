@@ -120,6 +120,11 @@ Route::get('/matches/{season}', 'MatchController@matches')->name('match.matches'
 Route::get('/matches/{season}/create', 'MatchController@create')->name('match.create');
 Route::post('/matches/{season}/create', 'MatchController@store')->name('match.store');
 
+Route::group(['prefix' => 'stats'], function() {
+    Route::get('/', 'StatsController@index')->name('stats.index');
+    Route::get('/{match}', 'StatsController@show')->name('stats.show');
+});
+
 Route::get('/testing/{match}', 'PlaysController@playsTesting');
 
 Route::get('stats-test', 'StatsController@test');

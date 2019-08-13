@@ -33,26 +33,26 @@
                     </select>
                 </div>
 
-                <div class="row mt-5">
-                    <div class="col s4">
-                        <label>
-                            <input name="status" type="radio" value="1" checked />
-                            <span>Override</span>
-                        </label>
-                    </div>
-                    <div class="col s4">
-                        <label>
-                            <input name="status" type="radio" value="2" />
-                            <span>Declined</span>
-                        </label>
-                    </div>
-                    <div class="col s4">
-                        <label>
-                            <input name="status" type="radio" value="3" />
-                            <span>Offsetting</span>
-                        </label>
-                    </div>
-                </div>
+{{--                <div class="row mt-5">--}}
+{{--                    <div class="col s4">--}}
+{{--                        <label>--}}
+{{--                            <input name="status" type="radio" value="1" checked />--}}
+{{--                            <span>Override</span>--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                    <div class="col s4">--}}
+{{--                        <label>--}}
+{{--                            <input name="status" type="radio" value="2" />--}}
+{{--                            <span>Declined</span>--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                    <div class="col s4">--}}
+{{--                        <label>--}}
+{{--                            <input name="status" type="radio" value="3" />--}}
+{{--                            <span>Offsetting</span>--}}
+{{--                        </label>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
 
                 <div class="right-align">
                     <button class="btn btn-primary btn-block waves-effect mt-5" type="submit">{{ __('Save') }}

@@ -47,7 +47,6 @@ class PlaysController extends Controller
         $plays = $this->ps->getPlays($match);
         $statsService = new StatsService();
         $stats = $statsService->teamStatComparision($match);
-//        dd($stats);
 
         return view('plays.index', compact('currentPlay', 'match', 'score', 'plays', 'stats'));
     }
@@ -64,6 +63,9 @@ class PlaysController extends Controller
         $currentPlay = $this->ps->getPlayStatus();
         if ($currentPlay->quarter < 5)
         {
+            if ($currentPlay->quarter == 2) {
+                $this->ps->swapTeams();
+            }
             Session::put('quarter', $currentPlay->quarter+1);
             $this->ps->endPlay($match);
         } else {
@@ -240,6 +242,8 @@ class PlaysController extends Controller
                 $touchdown = 1;
                 $this->ps->addPoints($match, $request->team, 6);
                 $specials->push('point_after');
+                Session::put('down', 1);
+                Session::put('to_go', 10);
                 Session::put('ball_on', 0 + $this->kickOffYardLine);
             } else {
                 $outDown = $this->getPlayResult($request, 1);
@@ -249,6 +253,8 @@ class PlaysController extends Controller
                 $touchdown = 1;
                 $this->ps->addPoints($match, $request->team, 6);
                 $specials->push('point_after');
+                Session::put('down', 1);
+                Session::put('to_go', 10);
                 Session::put('ball_on', 100 - $this->kickOffYardLine);
             } else {
                 $outDown = $this->getPlayResult($request, -1);
