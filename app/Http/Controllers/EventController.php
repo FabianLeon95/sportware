@@ -14,7 +14,7 @@ class EventController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:admin,stats')->except(['index', 'show', 'allEvents']);
+        $this->middleware('role:admin,stats,medic')->except(['index', 'show', 'allEvents']);
     }
 
     /**

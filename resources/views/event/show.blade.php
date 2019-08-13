@@ -34,7 +34,7 @@
                     <span class="card-title with-badge">{{ $event->description }}</span>
                     <span class="custom-badge">{{ $event->eventCategory->category_name }}</span>
                 </div>
-                @if (Auth::user()->hasRoles('admin','stats'))
+                @if (Auth::user()->hasRoles('admin','stats','medic'))
                     <div class="col s2 p-0 right-align">
                         <a class="dropdown-trigger btn btn-floating waves-effect" data-target='player{{$event->id}}'>
                             <i class="material-icons">more_vert</i>
@@ -52,7 +52,7 @@
                     </div>
                 @endif
             </div>
-            @if (Auth::user()->hasRoles('admin','stats'))
+            @if (Auth::user()->hasRoles('admin','stats','medic'))
                 <div id="delete-confirm-{{ $event->id }}" class="modal">
                     <div class="modal-content">
                         <h4><i class="material-icons icon">warning</i>Warning</h4>
@@ -94,7 +94,7 @@
                     <p style="margin-top: 10px">{{ $event->observations }}</p>
                 </div>
             @endif
-            @if (Auth::user()->hasRoles('admin','stats'))
+            @if (Auth::user()->hasRoles('admin','stats','medic'))
                 @if (!$event->playersWhoAttended->isEmpty())
                     <div class="row">
                         <span class="card-title" style="display: inline-block">Assistance:</span>

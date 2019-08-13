@@ -17,7 +17,7 @@
                 <div class="col s6 p-0">
                     <span class="card-title">Calendar</span>
                 </div>
-                @if (Auth::user()->hasRoles('admin','stats'))
+                @if (Auth::user()->hasRoles('admin','stats','medic'))
                     <div class="col s6 p-0 right-align">
                         <a href="{{ route('events.create') }}" class="btn waves-effect">
                             New Event
